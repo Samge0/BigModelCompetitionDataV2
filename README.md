@@ -42,6 +42,11 @@ python parses/extract_qa.py
 python parses/gen_enhance_qa.py
 ```
 
+- 遍历抓取的文档并根据指定长度切片，调用dify中的接口获取增强的QA数据
+```shell
+python parses/gen_enhance_qa_by_split_doc.py
+```
+
 ### 相关截图
 ![image](https://github.com/user-attachments/assets/f292cf88-b255-4bba-992f-aa3fdcb73bb8)
 ![image](https://github.com/user-attachments/assets/1201ad3b-a9af-419c-aaaa-b4da1c7ae032)
