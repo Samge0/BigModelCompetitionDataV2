@@ -52,6 +52,11 @@ def generate_enhanced_text(save_path: str, qa_list: list):
     qa_list_total = len(qa_list)
     for y in range(qa_list_total):
         qa_item = qa_list[y]
+        
+        check_item_format = isinstance(qa_item, dict) and 'question' in qa_item and 'answer' in qa_item
+        if check_item_format is False:
+            continue
+        
         timeutils.print_log(f"【{y+1}/{qa_list_total}】正在生成增强文本，Q: {qa_item['question']}, A: {qa_item['answer'][:20]}……")
         
         result = extract(str(qa_item))
