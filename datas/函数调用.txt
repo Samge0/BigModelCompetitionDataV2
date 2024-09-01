@@ -1,0 +1,102 @@
+#函数调用
+##介绍
+ChatGLM 的函数调用功能可以增强模型推理效果或进行其他外部操作，包括信息检索、数据库操作、知识图谱搜索与推理、操作系统、触发外部操作等工具调用场景。
+本教程将介绍如何使用 ChatGLM 的函数调用功能，实现对模型与外部函数库的连接。
+tools 是内容生成 API 中的可选参数，用于向模型提供函数定义。通过此参数，模型能够生成符合用户所提供规范的函数参数。请注意，API 实际上不会执行任何函数调用，仅返回调用函数所需要的参数。开发者可以利用模型输出的参数在应用中执行函数调用。
+本教程包括以下3个部分:
+1. 如何使用 Chat Completion 接口向模型描述外部函数。
+2. 如何与模型交互，触发模型对函数的调用。
+3. 如何使用模型生成的结果调用外部函数。
+##如何描述外部函数
+假设我们要创建一个具备查询航班功能的聊天机器人。我们定义如下两个外部函数供模型选择调用：
+1. 查询两地之间某日航班号函数：get_flight_number(departure: str, destination: str, date: str)
+2. 查询某航班某日票价函数：get_ticket_price(flight_number: str, date: str)
+###描述函数功能
+为了向模型描述外部函数库，需要向 tools 字段传入可以调用的函数列表。参数如下表：
+参数名称|类型|是否必填|参数说明
+type|String|是|设置为function
+function|Object|是
+      name|String|是|函数名称
+      description|String|是|用于描述函数功能。模型会根据这段描述决定函数调用方式。
+      parameters|Object|是|parameters字段需要传入一个 Json Schema 对象，以准确地定义函数所接受的参数。
+示例：
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_flight_number",
+            "description": "根据始发地、目的地和日期，查询对应日期的航班号",
+            "parameters": {
+                ......
+            },
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_ticket_price",
+            "description": "查询某航班在某日的票价",
+            "parameters": {
+                ......
+            },
+        }
+    },
+]
+###编写函数参数列表的 JSON 描述
+为了准确定义函数的参数列表，在编写参数列表的 JSON Schema 时建议最少包含以下字段：
+description ：说明函数方法的用途。
+type ：定义 JSON 数据的数据类型约束。
+properties：一个Object，其中的每个属性代表要定义的 JSON 数据中的一个键。
+required：指定哪些属性在数据中必须被包含。
+enum：如果一个属性是枚举类型，则此字段应当设置为枚举值的数组。
+则完整的tools字段设置为：
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_flight_number",
+            "description": "根据始发地、目的地和日期，查询对应日期的航班号",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "departure": {
+                        "description": "出发地",
+                        "type": "string"
+                    },
+                    "destination": {
+                        "description": "目的地",
+                        "type": "string"
+                    },
+                    "date": {
+                        "description": "日期",
+                        "type": "string",
+                    }
+                },
+                "required": [ "departure", "destination", "date" ]
+            },
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_ticket_price",
+            "description": "查询某航班在某日的票价",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "flight_number": {
+                        "description": "航班号",
+                        "type": "string"
+                    },
+                    "date": {
+                        "description": "日期",
+                        "type": "string",
+                    }
+                },
+                "required": [ "flight_number", "date"]
+            },
+        }
+    },
+]
+###函数调用选择
+在 tools 参数中，如果填写了 functions 参数，则默认情况下模型将决定何时适合使用其中一个函数。 如果要控制模型如何选择函数调用，需要设置 tool_choice 参数。参数默认值为auto，此时模型根据上下文信息自行选择是否返回函数调用。将其设置为 {"name": "your_function_name"} 时，可以强制 API 返回特定函数的调用。还可以通过将 tool_choice 参数设置为 "none" 来强制 API 不返回任何函数的调用。目前函数调用仅支持 auto 模式。      

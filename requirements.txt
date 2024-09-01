@@ -1,0 +1,7 @@
+requests
+pytz
+beautifulsoup4
+lxml
+r-useragent
+html2text==2024.2.26
+selenium==4.24.0

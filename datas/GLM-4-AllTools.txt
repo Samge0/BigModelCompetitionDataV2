@@ -1,0 +1,70 @@
+#GLM-4-AllTools
+##介绍
+GLM-4-AllTools 是专门为支持智能体和相关任务而进一步优化的模型版本。它能够自主理解用户的意图，规划复杂的指令，并能够调用一个或多个工具（例如网络浏览器、代码解释器和文本生图像）以完成复杂的任务。
+##模型能力
+GLM-4-AllTools 在解决数学问题的Python解释器、信息检索浏览器方面的性能与ChatGPT-4 相当。
+工具类型|对比项|GLM-4-AllTools|GPT-4
+Python Interpreter|GSM8K|91.59|92.72
+Python Interpreter|MATH|63.60|65.00
+Python Interpreter|Math23K|88.50|88.40
+Browser|Information Seeking|78.08|67.12
+##工具能力
+GLM-4-AllTools 模型支持了多种工具，并且持续更新中。
+工具|介绍
+智能编程助手|智能编程助手（Code Interpreter）能够准确理解自然语言描述的编程需求，自动生成代码片段来解决实际问题。
+安全代码沙盒|安全代码沙盒（Sandbox）提供了一个安全的执行和测试环境，可以在其中模拟真实环境中的代码执行结果。
+实时联网搜索|实时联网搜索（Web Search）能够在互联网上实时搜索信息，基于全网的搜索结果进行分析，提供更实时更全面的答案。
+绘图设计工具|绘图设计工具（Drawing tool）根据文本描述能够生成高质量、高分辨率的图片，支持多种图像风格，满足各类绘图需求。
+函数调用能力|函数调用能力（Function Call）允许AI助手调用外部函数，以执行特定任务或获取必要数据，实现与外部系统的无缝集成。
+##使用方式
+GLM-4-AllTools模型仅支持 SSE 流式输出，请求示例如下，具体请参考接口文档。
+from zhipuai import ZhipuAI
+client = ZhipuAI(api_key="") # 请填写您自己的APIKey
+response = client.chat.completions.create(
+    model="glm-4-alltools",  # 填写需要调用的模型名称
+    messages=[
+        {
+            "role": "user",
+            "content":[
+                {
+                    "type":"text",
+                    "text":"帮我查询2018年至2024年，每年五一假期全国旅游出行数据，并绘制成柱状图展示数据趋势。"
+                }
+            ]
+        }
+    ],
+    stream=True,
+    tools=[
+    {
+        "type": "function",
+        "function": {
+            "name": "get_tourist_data_by_year",
+            "description": "用于查询每一年的全国出行数据，输入年份范围(from_year,to_year)，返回对应的出行数据，包括总出行人次、分交通方式的人次等。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "交通方式，默认为by_all，火车=by_train，飞机=by_plane，自驾=by_car",
+                        "type": "string"
+                    },
+                    "from_year": {
+                        "description": "开始年份，格式为yyyy",
+                        "type": "string"
+                    },
+                    "to_year": {
+                        "description": "结束年份，格式为yyyy",
+                        "type": "string"
+                    }
+                },
+                "required": ["from_year","to_year"]
+            }
+        }
+      },
+      {
+        "type": "code_interpreter"
+      }
+    ]
+)
+
+for chunk in response:
+    print(chunk)
