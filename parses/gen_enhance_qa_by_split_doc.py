@@ -14,7 +14,7 @@ def gen_qa_item(text):
     return {'question': '', 'answer': text}
 
 # 将长文档拆分为小块
-def split_document(document, max_length=1000):
+def split_document(document, max_length=2000):
     return [gen_qa_item(document)] + [gen_qa_item(document[i:i + max_length]) for i in range(0, len(document), max_length)]
 
 
