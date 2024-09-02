@@ -103,7 +103,7 @@ if __name__ == '__main__':
         scope = scope_list[i]
         prompt = scope + common_tip
         
-        for y in filepath_total:
+        for y in range(filepath_total):
             filepath = filepath_list[y]
             doc_list = split_document(fileutils.read(filepath))
             doc_total = len(doc_list)

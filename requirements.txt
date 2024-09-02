@@ -5,3 +5,4 @@ lxml
 r-useragent
 html2text==2024.2.26
 selenium==4.24.0
+zhipuai==2.1.4.20230814
