@@ -28,7 +28,7 @@ leaders = [
     
     "习仲勋", "薄一波", "田纪云", "王震", "宋平", "尉健行", "黄菊", "李瑞环"
 ]
-FILTER_WORDS = ['鸭', 'by_train', 'by_car', '中国队'] + leaders
+FILTER_WORDS = ['鸭', 'by_train', 'by_car', '中国队', '奥运', '航班'] + leaders
 
 
 def is_int(s):
@@ -80,6 +80,11 @@ if __name__ == "__main__":
         for json_data in json_datas:
             if is_qa_item_format(json_data) is False:
                 timeutils.print_log("不符合要求的数据，跳过：", json_data)
+                filter_total += 1
+                continue
+            
+            if 'news' in json_path and '智谱' not in json_data['question']:
+                timeutils.print_log("新闻类的数据，过滤掉明显跟智谱不相关的数据，跳过：", json_data)
                 filter_total += 1
                 continue
             
