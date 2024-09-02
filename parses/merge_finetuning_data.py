@@ -28,7 +28,7 @@ leaders = [
     
     "习仲勋", "薄一波", "田纪云", "王震", "宋平", "尉健行", "黄菊", "李瑞环"
 ]
-FILTER_WORDS = ['鸭', 'by_train', 'by_car', '中国队', '奥运', '航班'] + leaders
+FILTER_WORDS = ['鸭', 'by_train', 'by_car', '中国队', '奥运', '航班', '交通'] + leaders
 
 
 def is_int(s):

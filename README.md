@@ -47,6 +47,11 @@ cp configs.demo.py configs.py
     python parses/gen_enhance_qa_by_split_doc.py
     ```
 
+- 使用智谱的api提取qa信息
+    ```shell
+    python parses/gen_qa_with_zp_api.py
+    ```
+
 - 将指定目录下的所有qa数据合并为符合微调要求的格式，[参考>>](https://bigmodel.cn/dev/howuse/finetuning/dataset)
     ```shell
     python parses/merge_finetuning_data.py

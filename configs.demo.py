@@ -19,3 +19,8 @@ DOC_MIN_LINES = 6
 CHROME_DRIVER_PATH = "xxx/chromedriver-win64/chromedriver.exe"
 # 是否以无头模式运行，避免弹窗
 CHROME_HEADLESS = True
+
+# 智谱平台的apikey
+ZHI_PU_API_KEY = ""
+# 智谱平台的模型名
+ZHI_PU_MODEL = ""
