@@ -43,6 +43,16 @@ def save_json(filepath, dict_data, mode='w'):
         os.makedirs(file_dir, exist_ok=True)
     with open(filepath, mode, encoding='utf-8') as f:
         json.dump(dict_data, f, ensure_ascii=False, indent=4)
+
+def save_jsonl(filepath, json_list, mode='w'):
+    file_dir = os.path.dirname(filepath)
+    if not os.path.exists(file_dir):
+        os.makedirs(file_dir, exist_ok=True)
+    # 打开文件并逐行写入 JSON 对象
+    with open(filepath, mode, encoding='utf-8') as file:
+        for entry in json_list:
+            json_line = json.dumps(entry, ensure_ascii=False)
+            file.write(json_line + '\n')
         
 
 def get_files(doc_dir, doc_suffix) -> list:

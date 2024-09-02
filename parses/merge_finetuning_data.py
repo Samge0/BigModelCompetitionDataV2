@@ -87,7 +87,7 @@ if __name__ == "__main__":
             answer = json_data.get('answer')
             results.append(gen_finetuning_data(question, answer))
             
-    save_path = f'{fileutils.get_cache_dir()}/finetuning_data.json'
-    fileutils.save_json(save_path, results)
+    save_path = f'{fileutils.get_cache_dir()}/finetuning_data.jsonl'
+    fileutils.save_jsonl(save_path, results)
     
     timeutils.print_log("\nall done，共移除", filter_total, "条不符合要求的数据")
