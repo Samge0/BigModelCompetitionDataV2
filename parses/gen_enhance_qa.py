@@ -12,6 +12,7 @@ if __name__ == "__main__":
     
     # 待处理的qa列表数据
     text = fileutils.read(f"{fileutils.get_cache_dir()}/qa.json")
+    # text = fileutils.read(f"{fileutils.get_cache_dir()}/qa_custom.json")
     qa_list = qas.load_json(text)
     
     # 生成数据的保存路径
