@@ -23,29 +23,34 @@ cp configs.demo.py configs.py
 ### 运行
 
 - 抓取智谱的新闻通告页面数据
-```shell
-python crawlers/crawl_news.py
-```
+    ```shell
+    python crawlers/crawl_news.py
+    ```
 
 - 抓取智谱的使用文档&api文档页面数据
-```shell
-python crawlers/crawl_docs.py
-```
+    ```shell
+    python crawlers/crawl_docs.py
+    ```
 
 - 将比赛提供的几个默认文档数据提取为QA格式数据
-```shell
-python parses/extract_qa.py
-```
+    ```shell
+    python parses/extract_qa.py
+    ```
 
 - 遍历已有的QA数据，调用dify中的接口获取增强的QA数据
-```shell
-python parses/gen_enhance_qa.py
-```
+    ```shell
+    python parses/gen_enhance_qa.py
+    ```
 
 - 遍历抓取的文档并根据指定长度切片，调用dify中的接口获取增强的QA数据
-```shell
-python parses/gen_enhance_qa_by_split_doc.py
-```
+    ```shell
+    python parses/gen_enhance_qa_by_split_doc.py
+    ```
+
+- 将指定目录下的所有qa数据合并为符合微调要求的格式，[参考>>](https://bigmodel.cn/dev/howuse/finetuning/dataset)
+    ```shell
+    python parses/merge_finetuning_data.py
+    ```
 
 ### 相关截图
 ![image](https://github.com/user-attachments/assets/f292cf88-b255-4bba-992f-aa3fdcb73bb8)
