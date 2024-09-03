@@ -41,6 +41,7 @@ if __name__ == '__main__':
             doc_list += qautils.split_document(text)
             
         qas.generate_enhanced_text(save_path=save_path, doc_list=doc_list, curr_times=i, max_times=max_times, y_index=y_index, index_cache_file=index_cache_file)
+        y_index = 0
 
     fileutils.save(index_cache_file, "0,0")   # 全部执行完毕，重置下标索引的缓存
     timeutils.print_log("\nall done")

@@ -115,6 +115,8 @@ if __name__ == '__main__':
                     qa_api_results += qa_list # 拼装独立的qa
                 
                 fileutils.save_json(save_path, qa_api_results)
+            z_index = 0
+        y_index = 0
                 
     fileutils.save(index_cache_file, "0,0,0")   # 全部执行完毕，重置下标索引的缓存
     timeutils.print_log("\nall done")
