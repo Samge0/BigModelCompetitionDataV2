@@ -24,17 +24,23 @@ if __name__ == '__main__':
     
     # 最大生成次数
     max_times = 100
-    for z in range(max_times):
-        
-        timeutils.print_log(f"【{z+1}/{max_times}】正在处理：")
+    
+    # 记录已处理的下标位置的缓存文件
+    index_cache_file = fileutils.get_cache_dir(".index_cache_files") + "/" + os.path.basename(save_path).split('.')[0]
+    # 将读取的缓存值分割并转换为整数
+    i_index, y_index = map(int, (fileutils.read(index_cache_file) or '0,0').split(','))
+    timeutils.print_log(f"从上次处理的位置开始（起始下标为0）：i_index: {i_index}, y_index: {y_index}")
+    
+    for i in range(i_index, max_times):
+        timeutils.print_log(f"【{i+1}/{max_times}】正在处理：")
         
         doc_list = []
-        for i in range(file_total):
-            file_path = doc_files[i]
+        for file_path in file_total:
             file_path = file_path.replace(os.sep, '/')
             text = fileutils.read(file_path)
             doc_list += qautils.split_document(text)
             
-        qas.generate_enhanced_text(save_path=save_path, doc_list=doc_list, curr_times=z, max_times=max_times)
-    
+        qas.generate_enhanced_text(save_path=save_path, doc_list=doc_list, curr_times=i, max_times=max_times, y_index=y_index, index_cache_file=index_cache_file)
+
+    fileutils.save(index_cache_file, "0,0")   # 全部执行完毕，重置下标索引的缓存
     timeutils.print_log("\nall done")

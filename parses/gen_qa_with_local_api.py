@@ -61,9 +61,13 @@ if __name__ == '__main__':
     # 解析命令行参数
     args = parser.parse_args()
     
+    # 结果保存的文件路径
     save_path = args.output_path or fileutils.get_cache_dir() + "/qa_api_result_local.json"
+    
+    # 所有的生成结果
     qa_api_results = json.loads(fileutils.read(save_path) or "[]")
     
+    # 读取的后缀
     file_suffix = "txt,md"
     
     input_dir_lst = []
@@ -71,9 +75,9 @@ if __name__ == '__main__':
         input_dir_lst = args.input_dir.split("|")
     else:
         input_dir_lst = [
+            fileutils.data_dir,
             fileutils.get_cache_dir("zp_docs/markdown"),
             fileutils.get_cache_dir("zp/markdown"),
-            fileutils.data_dir
         ]
         
     filepath_list = []
@@ -83,16 +87,25 @@ if __name__ == '__main__':
     scope_total = len(qautils.SCOPE_LIST)
     filepath_total = len(filepath_list)
     
-    for i in range(scope_total):
+    # 记录已处理的下标位置的缓存文件
+    index_cache_file = fileutils.get_cache_dir(".index_cache_files") + "/" + os.path.basename(save_path).split('.')[0]
+    # 将读取的缓存值分割并转换为整数
+    i_index, y_index, z_index = map(int, (fileutils.read(index_cache_file) or '0,0,0').split(','))
+    timeutils.print_log(f"从上次处理的位置开始（起始下标为0）：i_index: {i_index}, y_index: {y_index}, z_index: {z_index}")
+    
+    for i in range(i_index, scope_total):
         scope = qautils.SCOPE_LIST[i]
         prompt = scope + qautils.COMMON_TIP
         
-        for y in range(filepath_total):
+        for y in range(y_index, filepath_total):
             filepath = filepath_list[y]
             doc_list = qautils.split_document(fileutils.read(filepath))
             doc_total = len(doc_list)
             
-            for z in range(doc_total):
+            for z in range(z_index, doc_total):
+                # 记录下标位置
+                fileutils.save(index_cache_file, f"{i},{y},{z}")
+                
                 text = doc_list[z]
                 timeutils.print_log(f"【{i+1}/{scope_total}】【{y+1}/{filepath_total}】【{z+1}/{doc_total}】正在处理{filepath}的分块：{text[:100]}……")
                 
@@ -109,4 +122,5 @@ if __name__ == '__main__':
                 
                 fileutils.save_json(save_path, qa_api_results)
                 
+    fileutils.save(index_cache_file, "0,0,0")   # 全部执行完毕，重置下标索引的缓存
     timeutils.print_log("\nall done")

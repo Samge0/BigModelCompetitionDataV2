@@ -5,6 +5,7 @@
 # describe：对文本进行增强
 
 import json
+import os
 import configs
 from parses import qa_models, qautils
 from utils import fileutils, timeutils
@@ -40,17 +41,28 @@ def load_json(value):
         return None
 
 
-def generate_enhanced_text(save_path: str, doc_list: list, curr_times: int = 0, max_times: int = 50):
+def generate_enhanced_text(save_path: str, doc_list: list, curr_times: int = 0, max_times: int = 50, y_index: int=0, index_cache_file: str=None):
+    
     """
-    对 doc_list 中的每个文本进行 max_times 次增强文本提取
+    生成增强后的qa列表
 
-    :param save_path: 保存增强文本的文件路径
-    :param text_list: 需要进行增强的 qa 列表
-    :return: 
+    :param save_path: 生成的数据保存的路径
+    :param doc_list: 需要进行增强的qa列表
+    
+    :param curr_times: 仅供内部打印日志使用，当前已经生成的次数
+    :param max_times: 仅供内部打印日志使用，最大生成次数
+    :param y_index: 仅供内部使用，表示最后一次处理的下标
+    :param index_cache_file: 仅供内部使用，表示记录已处理的下标位置的缓存文件
+    
+    :return:
     """
+
     gen_result_list = load_json(fileutils.read(save_path) or '[]')
     qa_list_total = len(doc_list)
-    for y in range(qa_list_total):
+    for y in range(y_index, qa_list_total):
+        if index_cache_file:
+            fileutils.save(index_cache_file, f"{curr_times},{y}")
+        
         _text = doc_list[y]
         
         times_tip = f"【{curr_times}/{max_times}】" if curr_times > 0 else ""
