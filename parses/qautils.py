@@ -84,7 +84,7 @@ def is_int(s):
     try:
         int(s)
         return True
-    except ValueError:
+    except:
         return False
 
 

@@ -5,6 +5,7 @@
 # describe：使用智谱的api对文本进行QA提取
 
 
+import argparse
 import json
 import os
 import configs
@@ -49,11 +50,36 @@ def gen_qa_list(text, prompt):
 
 
 if __name__ == '__main__':
-    save_path = fileutils.get_cache_dir() + "/qa_api_result_local.json"
+    
+     # 创建解析器
+    parser = argparse.ArgumentParser(description="示例脚本接收 -- 参数")
+    
+    # 添加参数
+    parser.add_argument('--output_path', type=str, help='输出文件路径')
+    parser.add_argument('--input_dir', type=str, help='待处理的文件夹目录，多个用|分隔')
+
+    # 解析命令行参数
+    args = parser.parse_args()
+    
+    save_path = args.output_path or fileutils.get_cache_dir() + "/qa_api_result_local.json"
     qa_api_results = json.loads(fileutils.read(save_path) or "[]")
     
     file_suffix = "txt,md"
-    filepath_list = fileutils.get_files(fileutils.data_dir, file_suffix) + fileutils.get_files(fileutils.get_cache_dir("zp_docs/markdown"), file_suffix) + fileutils.get_files(fileutils.get_cache_dir("zp/markdown"), file_suffix)
+    
+    input_dir_lst = []
+    if args.input_dir:
+        input_dir_lst = args.input_dir.split("|")
+    else:
+        input_dir_lst = [
+            fileutils.get_cache_dir("zp_docs/markdown"),
+            fileutils.get_cache_dir("zp/markdown"),
+            fileutils.data_dir
+        ]
+        
+    filepath_list = []
+    for _dir in input_dir_lst:
+        filepath_list += fileutils.get_files(_dir, file_suffix)
+    
     scope_total = len(qautils.SCOPE_LIST)
     filepath_total = len(filepath_list)
     
@@ -71,7 +97,7 @@ if __name__ == '__main__':
                 timeutils.print_log(f"【{i+1}/{scope_total}】【{y+1}/{filepath_total}】【{z+1}/{doc_total}】正在处理{filepath}的分块：{text[:100]}……")
                 
                 qa_list = gen_qa_list(text, prompt) or []
-                if not qa_list:
+                if not qa_list or not isinstance(qa_list, list):
                     continue
                 
                 if qautils.IS_COMBINE:

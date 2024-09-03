@@ -47,9 +47,24 @@ cp configs.demo.py configs.py
     python parses/gen_enhance_qa_by_split_doc.py
     ```
 
-- 使用智谱的api提取qa信息
+- 使用智谱的api提取文本块中的qa列表信息
     ```shell
     python parses/gen_qa_with_zp_api.py
+    ```
+
+    可以指定输入路径、输出路路径
+    ```shell
+    python parses/gen_qa_with_zp_api.py --input_dir xxx/xxx|yyy/yyy --output_path xxx/xxx.json
+    ```
+
+- 使用本地的api（这里默认用的dify+ollama+qwen2的组合）提取文本块中的qa列表信息
+    ```shell
+    python parses/gen_qa_with_local_api.py
+    ```
+
+    可以指定输入路径、输出路路径
+    ```shell
+    python parses/gen_qa_with_local_api.py --input_dir xxx/xxx|yyy/yyy --output_path xxx/xxx.json
     ```
 
 - 将指定目录下的所有qa数据合并为符合微调要求的格式，[参考>>](https://bigmodel.cn/dev/howuse/finetuning/dataset)

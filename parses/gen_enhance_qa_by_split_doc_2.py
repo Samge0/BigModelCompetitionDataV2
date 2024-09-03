@@ -35,6 +35,6 @@ if __name__ == '__main__':
             text = fileutils.read(file_path)
             doc_list += qautils.split_document(text)
             
-        qas.generate_enhanced_text(save_path=save_path, doc_list=doc_list)
+        qas.generate_enhanced_text(save_path=save_path, doc_list=doc_list, curr_times=z, max_times=max_times)
     
     timeutils.print_log("\nall done")

@@ -211,7 +211,7 @@ class BaseDocCrawler(object):
             filename = self.get_filename(text,link)  
             filename = filename.split('?')[0]
             
-            if text:
+            if text and text not in filename:
                 filename += f"-{text}"
 
             filename = filename.replace(' ', '-').replace('/', 'or')

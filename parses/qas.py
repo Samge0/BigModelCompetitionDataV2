@@ -40,7 +40,7 @@ def load_json(value):
         return None
 
 
-def generate_enhanced_text(save_path: str, doc_list: list):
+def generate_enhanced_text(save_path: str, doc_list: list, curr_times: int = 0, max_times: int = 50):
     """
     对 doc_list 中的每个文本进行 max_times 次增强文本提取
 
@@ -53,7 +53,8 @@ def generate_enhanced_text(save_path: str, doc_list: list):
     for y in range(qa_list_total):
         _text = doc_list[y]
         
-        timeutils.print_log(f"【{y+1}/{qa_list_total}】正在生成增强文本，{_text[:100]}……")
+        times_tip = f"【{curr_times}/{max_times}】" if curr_times > 0 else ""
+        timeutils.print_log(f"{times_tip}【{y+1}/{qa_list_total}】正在生成增强文本，{_text[:100]}……")
         
         result = extract(str(_text))
         if isinstance(result, list):
