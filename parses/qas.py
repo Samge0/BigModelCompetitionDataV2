@@ -6,7 +6,7 @@
 
 import json
 import configs
-from parses import qa_models
+from parses import qa_models, qautils
 from utils import fileutils, timeutils
 
 
@@ -40,38 +40,31 @@ def load_json(value):
         return None
 
 
-def is_qa_item_format(item):
-    return isinstance(item, dict) and 'question' in item and 'answer' in item
-
-
-def generate_enhanced_text(save_path: str, qa_list: list):
+def generate_enhanced_text(save_path: str, doc_list: list):
     """
-    对 qa_list 中的每个问题进行 max_times 次增强文本提取
+    对 doc_list 中的每个文本进行 max_times 次增强文本提取
 
     :param save_path: 保存增强文本的文件路径
-    :param qa_list: 需要进行增强的 qa 列表
+    :param text_list: 需要进行增强的 qa 列表
     :return: 
     """
     gen_result_list = load_json(fileutils.read(save_path) or '[]')
-    qa_list_total = len(qa_list)
+    qa_list_total = len(doc_list)
     for y in range(qa_list_total):
-        qa_item = qa_list[y]
+        _text = doc_list[y]
         
-        if is_qa_item_format(qa_item) is False:
-            continue
+        timeutils.print_log(f"【{y+1}/{qa_list_total}】正在生成增强文本，{_text[:100]}……")
         
-        timeutils.print_log(f"【{y+1}/{qa_list_total}】正在生成增强文本，Q: {qa_item['question']}, A: {qa_item['answer'][:20]}……")
-        
-        result = extract(str(qa_item))
-        if is_qa_item_format(result) is False:
-            timeutils.print_log(f"【{y+1}/{qa_list_total}】生成失败，跳过")
-            continue
-        
-        if len(result['question']) < 10 or len(result['answer']) < 20:
-            timeutils.print_log(f"【{y+1}/{qa_list_total}】生成的问题或回答太短，跳过")
-            continue
-        
-        gen_result_list.append(result)
+        result = extract(str(_text))
+        if isinstance(result, list):
+            for qa_item in result:
+                if not qautils.is_qa_item_format(qa_item):
+                    continue
+                gen_result_list.append(qa_item)
+        elif isinstance(result, dict):
+            if qautils.is_qa_item_format(qa_item):
+                gen_result_list.append(result)
+                
         fileutils.save_json(save_path, gen_result_list)
     pass
 

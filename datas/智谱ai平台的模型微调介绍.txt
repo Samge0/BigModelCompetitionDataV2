@@ -65,7 +65,7 @@ chatglm3-6b 的LoRA微调训练及微调模型推理可通过购买 开发Pro版
 from zhipuai import ZhipuAI
 client = ZhipuAI(api_key="")
 response = client.chat.completions.create(
-    model="chatglm3-6b-1001",  # 填写需要调用的模型名称
+    model="chatglm3-6b-1001", 
     messages=[
         {"role": "system", "content": "你是一个人工智能助手，你叫叫chatGLM"},
         {"role": "user", "content": "你好！你叫什么名字"},

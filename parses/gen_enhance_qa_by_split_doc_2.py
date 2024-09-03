@@ -6,16 +6,8 @@
 
 import os
 import re
-from parses import qas
+from parses import qas, qautils
 from utils import fileutils, timeutils
-
-
-def gen_qa_item(text):
-    return {'question': '', 'answer': text}
-
-# 将长文档拆分为小块
-def split_document(document, max_length=2000):
-    return [gen_qa_item(document)] + [gen_qa_item(document[i:i + max_length]) for i in range(0, len(document), max_length)]
 
 
 if __name__ == '__main__':
@@ -36,13 +28,13 @@ if __name__ == '__main__':
         
         timeutils.print_log(f"【{z+1}/{max_times}】正在处理：")
         
-        qa_list = []
+        doc_list = []
         for i in range(file_total):
             file_path = doc_files[i]
             file_path = file_path.replace(os.sep, '/')
             text = fileutils.read(file_path)
-            qa_list += split_document(text)
+            doc_list += qautils.split_document(text)
             
-        qas.generate_enhanced_text(save_path=save_path, qa_list=qa_list)
+        qas.generate_enhanced_text(save_path=save_path, doc_list=doc_list)
     
     timeutils.print_log("\nall done")

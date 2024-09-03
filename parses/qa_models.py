@@ -47,7 +47,10 @@ class ChatMessageAPI:
             response = requests.post(self.base_url, headers=self.headers, json=data, proxies={"http": None, "https": None})
             # Handle the response
             if response.status_code == 200:
-                return json.loads(response.json().get('answer'))
+                answer = response.json().get('answer')
+                if "```" in answer:
+                    answer = answer.replace("\n", " ").replace("```json", "").replace("```", "")
+                return json.loads(answer)
             else:
                 print(f"Request failed with status code: {response.status_code}")
                 return None
@@ -57,12 +60,13 @@ class ChatMessageAPI:
 
 api_client = None
 
-def get_api_client():
+
+def get_api_client(api_key=None):
     global api_client
     if not api_client:
         api_client = ChatMessageAPI(
             base_url=f'{configs.API_URL}/chat-messages',
-            api_key=configs.AUTHORIZATION
+            api_key=api_key or configs.AUTHORIZATION
         )
     return api_client
 

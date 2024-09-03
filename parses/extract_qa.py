@@ -10,7 +10,7 @@ from utils import fileutils, timeutils
 
 
 @timeutils.monitor
-def extract_qa_from_markdown(markdown_text) -> list:
+def extract_qa_from_markdown(filename, markdown_text) -> list:
     
     tmp_split_tag = '|||'
     markdown_text = re.sub(r'#+', tmp_split_tag, markdown_text)
@@ -28,7 +28,7 @@ def extract_qa_from_markdown(markdown_text) -> list:
         if not question or not answer:
             continue
         
-        qa_datas.append({'question': f"{title_prefix}-{question}", 'answer': answer})
+        qa_datas.append({'question': f"{filename.split('.')[0]}-{title_prefix}-{question}", 'answer': answer})
 
     return qa_datas
 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     save_path = fileutils.get_cache_dir() + "/qa.json" 
     
     # 使用 glob 模块获取所有 .md 文件
-    doc_files = fileutils.get_files(data_dir, 'txt') or []
+    doc_files = fileutils.get_files(data_dir, 'txt,md') or []
 
     file_total = len(doc_files)
     if file_total == 0:
@@ -57,7 +57,7 @@ if __name__ == '__main__':
         
         text = fileutils.read(file_path)
         # 提取 QA 数据
-        qa_datas = extract_qa_from_markdown(text)
+        qa_datas = extract_qa_from_markdown(filename, text)
         
         result_lst += qa_datas
 

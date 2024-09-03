@@ -1,346 +1,378 @@
 [
     {
-        "question": "Batch API-概述",
+        "question": "智谱ai平台的Batch API介绍-Batch API-概述",
         "answer": "Batch API 适用于无需即时反馈并需使用大模型处理大量请求的场景。通过 Batch API，开发者可以通过文件提交大量任务，且价格降低50%、无并发限制，并在24小时内完成任务处理。典型应用场景包括：\n文章分类：为大量文章、帖子或产品描述添加分类标签。\n情感分析：评估客户反馈、社交媒体帖子和商品评价的情感倾向。\n文档处理：为大量文档生成摘要、提炼关键信息或进行翻译。\n信息提取：从文本数据中识别和抽取关键内容\n本指南将通过实际场景示例，向您介绍如何使用 Batch API。"
     },
     {
-        "question": "Batch API-检查 Batch 状态",
+        "question": "智谱ai平台的Batch API介绍-Batch API-检查 Batch 状态",
         "answer": "Batch 任务将在 24 小时内处理完成，状态为 \"completed\" 表示任务已完成。\n状态|描述\nvalidating|文件正在验证中，Batch 任务未开始\nfailed|文件未通过验证\nin_progress|文件已成功验证，Batch 任务正在进行中\nfinalizing|Batch 任务已完成，结果正在准备中\ncompleted|Batch 任务已完成，结果已准备好\nexpired|Batch 任务未能在24小时内完成\ncancelling|Batch 任务正在取消中\ncancelled|Batch 任务已取消"
     },
     {
-        "question": "Batch API-Batch API的并发限制是怎样的？",
+        "question": "智谱ai平台的Batch API介绍-Batch API-Batch API的并发限制是怎样的？",
         "answer": "Batch API 的并发限制与现有的每个模型并发限制是分开的。BatchAPI 引入了两种新的限制：\n单个 Batch 文件中包含最多 50,000 个请求且不超过 100M。\n每个模型的 Batch 有最大排队限制。当达到请求队列上限时，请等待当前任务完成后再提交新任务。\n模型|Batch 队列限制\nGLM-4-Flash|100万次\nGLM-4-Air|100万次\nGLM-3-Turbo|20万次\nEmbedding-2|20万次\nGLM-4-0520|5万次\nGLM-4|5万次\nCogview-3|3千次\nGLM-4V|1千次"
     },
     {
-        "question": "Batch API-Batch 的过期如何处理？",
+        "question": "智谱ai平台的Batch API介绍-Batch API-Batch 的过期如何处理？",
         "answer": "如果Batch未能及时完成，该批次将被标记为过期状态；批次中未完成的请求将被取消。对于批次中已完成的请求，用户可以通过文件获取，并且需要支付这些请求消耗的费用。"
     },
     {
-        "question": "Batch API-Batch 文件有哪些存储限制？",
+        "question": "智谱ai平台的Batch API介绍-Batch API-Batch 文件有哪些存储限制？",
         "answer": "Batch 文件最多上传100个文件。系统只保留您的文件30天，过期后文件将自动删除，无法恢复。"
     },
     {
-        "question": "CogVideoX-CogVideoX",
+        "question": "智谱ai平台的CogVideoX介绍-CogVideoX-CogVideoX",
         "answer": "CogVideoX是由智谱AI开发的视频生成大模型，具备强大的视频生成能力、只需输入文本或图片就可以轻松完成视频制作。本指南将教您如何系统地构建提示词，从而生成专业级别的视频作品。\n立即生成请前往体验中心\n接口调用请参阅接口文档\n价格：标准价格为0.5元/次、购买资源包：体验包（9.9元/30次）、优享包（399元/1000次）、超大包（2499元/10000次）"
     },
     {
-        "question": "CogVideoX-文生视频",
+        "question": "智谱ai平台的CogVideoX介绍-CogVideoX-文生视频",
         "answer": "提示词的精确度与细节水平直接影响视频内容的质量。采用结构化提示词可以极大提升视频内容的符合度和专业性。以下是构建提示词的关键组成部分：\n提示词 = (镜头语言 +景别角度+ 光影) + 主体 (主体描述) + 主体运动 +场景 (场景描述) + (氛围)\n镜头语言:通过镜头的各种应用以及镜头之间的衔接和切换来传达故事或信息，并创造出特定的视觉效果和情感氛围。如镜头平移，推近、拉远、升降拍摄、摇摄、跟随拍摄、手持拍摄、无人机航拍等;\n景别角度：控制相机与被摄对象之间距离和角度，实现不同的视觉效果和情感表达。如大全景、中景、近景 、鸟瞰视角 、跟随视角、鱼眼效果等;\n光影:光影是赋予摄影作品灵魂的关键元素，光影的运用可以使照片更具深度，更具情感，我们可以通过光影创造出富有层次感和情感表达力的作品。如自然光、丁达尔效应、柔和散射、硬光直射 、逆光剪影、三点布光等;\n主体:主体是视频中的主要表现对象。如儿童、狮子、向日葵，汽车、城堡等;\n主体描述:对主体外貌细节和肢体姿态等的描述，如人物的服饰、动物的毛色、植物的颜色、物体的状态和建筑的风格;\n主体运动:对主体运动状态的描述，包括静止和运动等，运动状态不宜过于复杂，符合6s视频内可以展现的画面即可，\n场景: 场景是主体所处的环境，包括前景、背景等;\n场景描述:对主体所处环境的细节描述。如都市环境、乡村风光、工业区等;\n氛围:对预期视频画面的氛围描述。如喧嚣繁忙、悬疑惊悚、宁静舒适等;\n其它技巧\n关键词重复：在提示的不同部分重复或强化关键词有助于提高输出的一致性。如:摄像机以超高速镜头快速飞过森林;\n聚焦内容：提示词应集中在视频中应有的内容上。如：冷清的街道，而不是“没有人的街道”;\n使用智能体：使用提示词智能体帮助你生成专业提示词;"
     },
     {
-        "question": "CogVideoX-图生视频",
+        "question": "智谱ai平台的CogVideoX介绍-CogVideoX-图生视频",
         "answer": "CogVideoX 可以将用户提供的静态图像转化为6秒的动态视频。为达到最佳效果，推荐上传比例为3:2的图片，并且文件格式为 PNG 或 JPEG，文件大小不超过5MB。提示词建议使用“主体（背景）+ 运动描述”的表达方式。"
     },
     {
-        "question": "GLM-4-AllTools-介绍",
+        "question": "智谱ai平台的GLM-4-AllTools介绍-GLM-4-AllTools-介绍",
         "answer": "GLM-4-AllTools 是专门为支持智能体和相关任务而进一步优化的模型版本。它能够自主理解用户的意图，规划复杂的指令，并能够调用一个或多个工具（例如网络浏览器、代码解释器和文本生图像）以完成复杂的任务。"
     },
     {
-        "question": "GLM-4-AllTools-模型能力",
+        "question": "智谱ai平台的GLM-4-AllTools介绍-GLM-4-AllTools-模型能力",
         "answer": "GLM-4-AllTools 在解决数学问题的Python解释器、信息检索浏览器方面的性能与ChatGPT-4 相当。\n工具类型|对比项|GLM-4-AllTools|GPT-4\nPython Interpreter|GSM8K|91.59|92.72\nPython Interpreter|MATH|63.60|65.00\nPython Interpreter|Math23K|88.50|88.40\nBrowser|Information Seeking|78.08|67.12"
     },
     {
-        "question": "GLM-4-AllTools-工具能力",
+        "question": "智谱ai平台的GLM-4-AllTools介绍-GLM-4-AllTools-工具能力",
         "answer": "GLM-4-AllTools 模型支持了多种工具，并且持续更新中。\n工具|介绍\n智能编程助手|智能编程助手（Code Interpreter）能够准确理解自然语言描述的编程需求，自动生成代码片段来解决实际问题。\n安全代码沙盒|安全代码沙盒（Sandbox）提供了一个安全的执行和测试环境，可以在其中模拟真实环境中的代码执行结果。\n实时联网搜索|实时联网搜索（Web Search）能够在互联网上实时搜索信息，基于全网的搜索结果进行分析，提供更实时更全面的答案。\n绘图设计工具|绘图设计工具（Drawing tool）根据文本描述能够生成高质量、高分辨率的图片，支持多种图像风格，满足各类绘图需求。\n函数调用能力|函数调用能力（Function Call）允许AI助手调用外部函数，以执行特定任务或获取必要数据，实现与外部系统的无缝集成。"
     },
     {
-        "question": "GLM-4-AllTools-使用方式",
-        "answer": "GLM-4-AllTools模型仅支持 SSE 流式输出，请求示例如下，具体请参考接口文档。\nfrom zhipuai import ZhipuAI\nclient = ZhipuAI(api_key=\"\")"
+        "question": "智谱ai平台的GLM-4-AllTools介绍-GLM-4-AllTools-使用方式",
+        "answer": "GLM-4-AllTools模型仅支持 SSE 流式输出，请求示例如下，具体请参考接口文档。\nfrom zhipuai import ZhipuAI\nclient = ZhipuAI(api_key=\"\")\nresponse = client.chat.completions.create(\n    model=\"glm-4-alltools\",  \n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\":[\n                {\n                    \"type\":\"text\",\n                    \"text\":\"帮我查询2018年至2024年，每年五一假期全国旅游出行数据，并绘制成柱状图展示数据趋势。\"\n                }\n            ]\n        }\n    ],\n    stream=True,\n    tools=[\n    {\n        \"type\": \"function\",\n        \"function\": {\n            \"name\": \"get_tourist_data_by_year\",\n            \"description\": \"用于查询每一年的全国出行数据，输入年份范围(from_year,to_year)，返回对应的出行数据，包括总出行人次、分交通方式的人次等。\",\n            \"parameters\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"type\": {\n                        \"description\": \"交通方式，默认为by_all，火车=by_train，飞机=by_plane，自驾=by_car\",\n                        \"type\": \"string\"\n                    },\n                    \"from_year\": {\n                        \"description\": \"开始年份，格式为yyyy\",\n                        \"type\": \"string\"\n                    },\n                    \"to_year\": {\n                        \"description\": \"结束年份，格式为yyyy\",\n                        \"type\": \"string\"\n                    }\n                },\n                \"required\": [\"from_year\",\"to_year\"]\n            }\n        }\n      },\n      {\n        \"type\": \"code_interpreter\"\n      }\n    ]\n)\n\nfor chunk in response:\n    print(chunk)"
     },
     {
-        "question": "GLM-4-AllTools-请填写您自己的APIKey",
-        "answer": "response = client.chat.completions.create(\n    model=\"glm-4-alltools\","
-    },
-    {
-        "question": "GLM-4-AllTools-填写需要调用的模型名称",
-        "answer": "messages=[\n        {\n            \"role\": \"user\",\n            \"content\":[\n                {\n                    \"type\":\"text\",\n                    \"text\":\"帮我查询2018年至2024年，每年五一假期全国旅游出行数据，并绘制成柱状图展示数据趋势。\"\n                }\n            ]\n        }\n    ],\n    stream=True,\n    tools=[\n    {\n        \"type\": \"function\",\n        \"function\": {\n            \"name\": \"get_tourist_data_by_year\",\n            \"description\": \"用于查询每一年的全国出行数据，输入年份范围(from_year,to_year)，返回对应的出行数据，包括总出行人次、分交通方式的人次等。\",\n            \"parameters\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"type\": {\n                        \"description\": \"交通方式，默认为by_all，火车=by_train，飞机=by_plane，自驾=by_car\",\n                        \"type\": \"string\"\n                    },\n                    \"from_year\": {\n                        \"description\": \"开始年份，格式为yyyy\",\n                        \"type\": \"string\"\n                    },\n                    \"to_year\": {\n                        \"description\": \"结束年份，格式为yyyy\",\n                        \"type\": \"string\"\n                    }\n                },\n                \"required\": [\"from_year\",\"to_year\"]\n            }\n        }\n      },\n      {\n        \"type\": \"code_interpreter\"\n      }\n    ]\n)\n\nfor chunk in response:\n    print(chunk)"
-    },
-    {
-        "question": "企业权益-概述",
+        "question": "智谱ai平台的企业权益介绍-企业权益-概述",
         "answer": "任何完成企业认证的开发者可享有智谱企业权益。\n企业开发者通过消耗账户余额、实时计费调用模型API接口来获得积分、提升企业权益等级，凭等级享受模型计费折扣、智谱新产品体验、智谱平台服务等8类平台权益内容。"
     },
     {
-        "question": "企业权益-获得企业权益积分",
+        "question": "智谱ai平台的企业权益介绍-企业权益-获得企业权益积分",
         "answer": "企业开发者可通过实时计费调用以下模型API，获得智谱企业权益积分（ 积分通过Tokens用量折算后，将仅取积分整数部分）：\n模型|消耗Tokens用量|获得积分值\nGLM-4-0520|1万 Tokens|2\nGLM-4|1万 Tokens|1\nGLM-4-Air|100万 Tokens|1\nGLM-4-AirX|10万 Tokens|1\nGLM-4-Flash|1000万 Tokens|1\nGLM-4V|1万 Tokens|1\nGLM-3-Turbo|100万 Tokens|1\nCharGLM-3|20万 Tokens|3\nEmbedding-2|200万 Tokens|1\nCogView-3|10 张|1万 Tokens|1\nCodeGeeX-4|1000万 Tokens|1\nGLM-4-AllTools|1万 Tokens|1\nCogVideoX|2 视频|1"
     },
     {
-        "question": "企业权益-企业权益等级计算规则",
+        "question": "智谱ai平台的企业权益介绍-企业权益-企业权益等级计算规则",
         "answer": "等级|积分范围\nV0|[ 0 , 10000 )\nV1|[ 10000 , 100000 )\nV2|[ 100000 , 200000 )\nV3|>= 200000"
     },
     {
-        "question": "企业权益-企业权益等级的计算与生效",
+        "question": "智谱ai平台的企业权益介绍-企业权益-企业权益等级的计算与生效",
         "answer": "我们将在每月 1 日 00:00:00 开始统计您在上月累计获得的积分，根据您最近三个月的最高积分确定您在本月的企业权益等级。\n您的企业权益等级将在每月 1 日 06:00:00 计算完成、更新并生效（计算过程中您将继续享受上月等级的各项权益）。在本月您将凭借企业权益等级，享有对应的各项权益。\n为保障您及时获得更高的企业权益等级，如果您本月已获积分所对应的等级超过了本月已生效的等级，您将立即升级到更高等级、享受更佳企业权益。"
     },
     {
-        "question": "企业权益-企业权益内容",
+        "question": "智谱ai平台的企业权益介绍-企业权益-企业权益内容",
         "answer": "当前各等级企业权益将享受以下服务，我们将陆续推出更多企业权益内容，敬请期待："
     },
     {
-        "question": "企业权益-企业权益等级“v0”",
+        "question": "智谱ai平台的企业权益介绍-企业权益-企业权益等级“v0”",
         "answer": "模型|计费折扣权益|最高并发保障|平台服务权益\nGLM-4-0520|90%|20|智谱在线课程、官方技术支持\nGLM-4|90%|20|智谱在线课程、官方技术支持\nGLM-4-Air|90%|100|智谱在线课程、官方技术支持\nGLM-4-AirX|90%|20|智谱在线课程、官方技术支持\nGLM-4-Flash|90%|100|智谱在线课程、官方技术支持\nGLM-4V|90%|20|智谱在线课程、官方技术支持\nGLM-3-Turbo|90%|100|智谱在线课程、官方技术支持\nCharGLM-3|90%|20|智谱在线课程、官方技术支持\nEmbedding-2|90%|20|智谱在线课程、官方技术支持\nCogView-3|90%|20|智谱在线课程、官方技术支持\nCogVideoX|90%|5|智谱在线课程、官方技术支持"
     },
     {
-        "question": "企业权益-企业权益等级“v1”",
+        "question": "智谱ai平台的企业权益介绍-企业权益-企业权益等级“v1”",
         "answer": "模型|计费折扣权益|最高并发保障|平台服务权益\nGLM-4-0520|80%|100|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nGLM-4|80%|100|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nGLM-4-Air|80%|1000|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nGLM-4-AirX|80%|40|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nGLM-4-Flash|80%|200|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nGLM-4V|80%|30|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nGLM-3-Turbo|80%|200|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nCharGLM-3|80%|50|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nEmbedding-2|80%|100|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nCogView-3|80%|30|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权\nCogVideoX|80%|10|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权"
     },
     {
-        "question": "企业权益-企业权益等级“v2”",
+        "question": "智谱ai平台的企业权益介绍-企业权益-企业权益等级“v2”",
         "answer": "模型|计费折扣权益|最高并发保障|平台服务权益\nGLM-4-0520|70%|300|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4|70%|500|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4-Air|70%|3000|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4-AirX|70%|80|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4-Flash|70%|400|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4V|70%|50|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-3-Turbo|70%|700|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nCharGLM-3|70%|100|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nEmbedding-2|70%|1000|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nCogView-3|70%|40|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nCogVideoX|70%|15|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权"
     },
     {
-        "question": "企业权益-企业权益等级“v3”",
+        "question": "智谱ai平台的企业权益介绍-企业权益-企业权益等级“v3”",
         "answer": "模型|计费折扣权益|最高并发保障|平台服务权益\nGLM-4-0520|60%|600|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4|60%|1000|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4-Air|60%|5000|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4-AirX|60%|120|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4-Flash|60%|1500|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-4V|60%|100|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nGLM-3-Turbo|60%|1500|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nCharGLM-3|60%|200|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nEmbedding-2|60%|2000|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nCogView-3|60%|40|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权\nCogVideoX|60%|20|智谱在线课程、官方技术支持、新平台功能体验权、新模型服务体验权、智谱活动特权、行业活动特权"
     },
     {
-        "question": "内容安全-介绍",
+        "question": "智谱ai平台的内容安全介绍-内容安全-介绍",
         "answer": "智谱AI致力于做到人工智能的安全可控、可审计、可监督、可追溯和可信赖。为此，我们内置了安全审核机制，旨在减少模型应用中违法及不良信息（包括但不限于违反法律法规、危害国家安全、恶意营销、涉黄、谩骂、暴恐违禁以及其它不良内容）的出现。当我们的内置安全审核机制识别到违法及不良信息时，将提供相应的提示信息或进行拦截处置，例如通过输入拦截、输出限制和终止内容生成。"
     },
     {
-        "question": "内容安全-用户输入审核",
+        "question": "智谱ai平台的内容安全介绍-内容安全-用户输入审核",
         "answer": "当API检测到用户输入中含有敏感内容时，系统会返回错误码（1301），该情况下，建议开发者采取措施，对用户使用行为进行正面引导，以确保内容的合规性和适当性。\n错误码|错误信息\n1301|系统检测到输入或生成内容可能包含违法及不良内容，请您避免输入易产生违法及不良内容的提示语，感谢您的配合"
     },
     {
-        "question": "内容安全-流式输出",
+        "question": "智谱ai平台的内容安全介绍-内容安全-流式输出",
         "answer": "在模型流式输出生成内容的过程中，我们会分批对模型生成内容进行检测，当检测到违法及不良信息时，API（V3）返回错误码（1301），API（V4)返回停止词\"finish_reason\":\"sensitive\"。开发者识别到相关信息，应及时采取终止生成、撤回、修改、清屏、重启等措施删除生成内容，并确保不将含有违法及不良信息的内容传递给模型继续生成，避免其造成负面影响。"
     },
     {
-        "question": "内容安全-同步输出",
+        "question": "智谱ai平台的内容安全介绍-内容安全-同步输出",
         "answer": "当API检测到模型输出内容中含有违法及不良信息时，系统会向开发者返回错误码（1301），不同步生成结果。建议开发者采取措施，对用户进行正面引导，以确保内容的合规性和适当性。"
     },
     {
-        "question": "内容安全-终端用户管理",
+        "question": "智谱ai平台的内容安全介绍-内容安全-终端用户管理",
         "answer": "在请求中发送终端用户 ID 可以协助平台对终端用户的违规行为、生成违法及不良信息或其他滥用行为进行干预。当我们检测到您的终端用户存在违规、生成违法及不良信息或其他滥用行为时，平台将会对终端用户请求进行封禁处理，避免您的企业账号因终端用户的违规或滥用行为受到影响。\nID 是唯一标识终端用户的字符串，用户ID长度至少为6个字符，但不超过128个字符，您可以通过在API 请求中上传终端用户 ID，如下所示：\n{\n    \"model\": \"glm-3-turbo\",\n    \"messages\": [\n     {\"role\": \"user\", \"content\": \"作为一名营销专家，请为智谱开放平台创作一个吸引人的slogan\"},\n     {\"role\": \"assistant\", \"content\": \"当然，为了创作一个吸引人的slogan，请告诉我一些关于您产品的信息\"},\n     {\"role\": \"user\", \"content\": \"智谱AI开放平台\"},\n    ],\n    \"stream\": \"true\",\n    \"user_id\": \"user_123456\",\n    }\n}"
     },
     {
-        "question": "内容安全-安全测试申请",
+        "question": "智谱ai平台的内容安全介绍-内容安全-安全测试申请",
         "answer": "如果您需要进行安全相关的测试，请联系商务经理、致电（400-6883-991）进行申请，避免您的企业账号出现违规或滥用等问题。"
     },
     {
-        "question": "内容安全-违法及不良内容反馈",
+        "question": "智谱ai平台的内容安全介绍-内容安全-违法及不良内容反馈",
         "answer": "智谱AI高度重视生成式人工智能服务的安全性。如果您在开发过程中发现API存在任何安全问题，请联系企业微信客服或者致电（400-6883-991）告知我们。我们非常感谢您的贡献和支持。"
     },
     {
-        "question": "函数调用-介绍",
+        "question": "智谱ai平台的函数调用介绍-函数调用-介绍",
         "answer": "ChatGLM 的函数调用功能可以增强模型推理效果或进行其他外部操作，包括信息检索、数据库操作、知识图谱搜索与推理、操作系统、触发外部操作等工具调用场景。\n本教程将介绍如何使用 ChatGLM 的函数调用功能，实现对模型与外部函数库的连接。\ntools 是内容生成 API 中的可选参数，用于向模型提供函数定义。通过此参数，模型能够生成符合用户所提供规范的函数参数。请注意，API 实际上不会执行任何函数调用，仅返回调用函数所需要的参数。开发者可以利用模型输出的参数在应用中执行函数调用。\n本教程包括以下3个部分:\n1. 如何使用 Chat Completion 接口向模型描述外部函数。\n2. 如何与模型交互，触发模型对函数的调用。\n3. 如何使用模型生成的结果调用外部函数。"
     },
     {
-        "question": "函数调用-如何描述外部函数",
+        "question": "智谱ai平台的函数调用介绍-函数调用-如何描述外部函数",
         "answer": "假设我们要创建一个具备查询航班功能的聊天机器人。我们定义如下两个外部函数供模型选择调用：\n1. 查询两地之间某日航班号函数：get_flight_number(departure: str, destination: str, date: str)\n2. 查询某航班某日票价函数：get_ticket_price(flight_number: str, date: str)"
     },
     {
-        "question": "函数调用-描述函数功能",
+        "question": "智谱ai平台的函数调用介绍-函数调用-描述函数功能",
         "answer": "为了向模型描述外部函数库，需要向 tools 字段传入可以调用的函数列表。参数如下表：\n参数名称|类型|是否必填|参数说明\ntype|String|是|设置为function\nfunction|Object|是\n      name|String|是|函数名称\n      description|String|是|用于描述函数功能。模型会根据这段描述决定函数调用方式。\n      parameters|Object|是|parameters字段需要传入一个 Json Schema 对象，以准确地定义函数所接受的参数。\n示例：\ntools = [\n    {\n        \"type\": \"function\",\n        \"function\": {\n            \"name\": \"get_flight_number\",\n            \"description\": \"根据始发地、目的地和日期，查询对应日期的航班号\",\n            \"parameters\": {\n                ......\n            },\n        }\n    },\n    {\n        \"type\": \"function\",\n        \"function\": {\n            \"name\": \"get_ticket_price\",\n            \"description\": \"查询某航班在某日的票价\",\n            \"parameters\": {\n                ......\n            },\n        }\n    },\n]"
     },
     {
-        "question": "函数调用-编写函数参数列表的 JSON 描述",
+        "question": "智谱ai平台的函数调用介绍-函数调用-编写函数参数列表的 JSON 描述",
         "answer": "为了准确定义函数的参数列表，在编写参数列表的 JSON Schema 时建议最少包含以下字段：\ndescription ：说明函数方法的用途。\ntype ：定义 JSON 数据的数据类型约束。\nproperties：一个Object，其中的每个属性代表要定义的 JSON 数据中的一个键。\nrequired：指定哪些属性在数据中必须被包含。\nenum：如果一个属性是枚举类型，则此字段应当设置为枚举值的数组。\n则完整的tools字段设置为：\ntools = [\n    {\n        \"type\": \"function\",\n        \"function\": {\n            \"name\": \"get_flight_number\",\n            \"description\": \"根据始发地、目的地和日期，查询对应日期的航班号\",\n            \"parameters\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"departure\": {\n                        \"description\": \"出发地\",\n                        \"type\": \"string\"\n                    },\n                    \"destination\": {\n                        \"description\": \"目的地\",\n                        \"type\": \"string\"\n                    },\n                    \"date\": {\n                        \"description\": \"日期\",\n                        \"type\": \"string\",\n                    }\n                },\n                \"required\": [ \"departure\", \"destination\", \"date\" ]\n            },\n        }\n    },\n    {\n        \"type\": \"function\",\n        \"function\": {\n            \"name\": \"get_ticket_price\",\n            \"description\": \"查询某航班在某日的票价\",\n            \"parameters\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"flight_number\": {\n                        \"description\": \"航班号\",\n                        \"type\": \"string\"\n                    },\n                    \"date\": {\n                        \"description\": \"日期\",\n                        \"type\": \"string\",\n                    }\n                },\n                \"required\": [ \"flight_number\", \"date\"]\n            },\n        }\n    },\n]"
     },
     {
-        "question": "函数调用-函数调用选择",
+        "question": "智谱ai平台的函数调用介绍-函数调用-函数调用选择",
         "answer": "在 tools 参数中，如果填写了 functions 参数，则默认情况下模型将决定何时适合使用其中一个函数。 如果要控制模型如何选择函数调用，需要设置 tool_choice 参数。参数默认值为auto，此时模型根据上下文信息自行选择是否返回函数调用。将其设置为 {\"name\": \"your_function_name\"} 时，可以强制 API 返回特定函数的调用。还可以通过将 tool_choice 参数设置为 \"none\" 来强制 API 不返回任何函数的调用。目前函数调用仅支持 auto 模式。"
     },
     {
-        "question": "提示工程-提示工程",
+        "question": "智谱ai平台的提示工程介绍-提示工程-提示工程",
         "answer": "本指南分享了 GLM 语言模型和 CogView 图像生成模型获得更好生成结果的策略。可以组合使用提示词技巧以获得更好的生成效果。"
     },
     {
-        "question": "提示工程-策略：编写清晰、具体的指令",
+        "question": "智谱ai平台的提示工程介绍-提示工程-策略：编写清晰、具体的指令",
         "answer": "为了获得最佳的回答，用户需要向 GLM 提供清晰、具体的指令。GLM 越能明确您的需求，提供的回答质量越高。"
     },
     {
-        "question": "提示工程-技巧：定义 System Prompt",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：定义 System Prompt",
         "answer": "用于设定AI助手行为模式的工具，包括角色设定、语言风格、任务模式和针对特定问题的具体行为指导。\n推荐示例：你擅长从文本中提取关键信息，精确、数据驱动，重点突出关键信息，根据用户提供的文本片段提取关键数据和事实，将提取的信息以清晰的 JSON格式呈现。"
     },
     {
-        "question": "提示工程-技巧：提供具体的细节要求",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：提供具体的细节要求",
         "answer": "在 Prompt 中添加要求模型输出内容的细节和背景信息。\n推荐示例：我对太阳系的行星非常感兴趣，特别是土星。请提供关于土星的基本信息，包括其大小、组成、环系统和任何独特的天文现象。"
     },
     {
-        "question": "提示工程-技巧：让 GLM 进行角色扮演",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：让 GLM 进行角色扮演",
         "answer": "让 GLM 扮演角色、可以更准确地模仿该角色的行为和对话方式。\n作为一个量子物理学家，解释量子物理学的基本原理，并简要介绍其在现代科技中的应用。"
     },
     {
-        "question": "提示工程-技巧：使用分隔符标示不同的输入部分",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：使用分隔符标示不同的输入部分",
         "answer": "推荐示例：请基于以下内容：\n\"\"\" 要总结的文章内容\"\"\"\n提炼核心观点和纲要"
     },
     {
-        "question": "提示工程-技巧：思维链提示",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：思维链提示",
         "answer": "要求模型分步骤解答问题，还要求其展示其推理过程的每个步骤。通过这种方式，可以减少不准确结果的可能性，并使用户更容易评估模型的响应。\n推荐示例：作为一个 AI 助手，你的任务是帮助用户解决复杂的数学问题。对于每个问题，你需要首先独立解决它，然后比较和评估用户的答案，并最终提供反馈。在这个过程中，请展示你的每一步推理过程。我有一个数学问题需要帮助:\"\"\"问题是：一个农场有鸡和牛共 35 头，脚总共有 94 只。鸡和牛各有多少头？我的答案是鸡有 23 头，牛有 12 头\"\"\"。"
     },
     {
-        "question": "提示工程-技巧：少样本学习",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：少样本学习",
         "answer": "可以作为进行少样本学习的示例。这些样本可以用来引导模型模仿特定的行为和语言风格。\n推荐示例：模仿这种风格\n    ''' 1、三杯鸡在锅中欢跃，是岁月的篝火，是浪漫的乐章。\n        2、炖排骨的滋味，是冬日的棉被，是乡土的回响。\n        3、红烧勤鱼的鲜香，是海洋的密语，是大海的情书。'''\n生成新的句子。"
     },
     {
-        "question": "提示工程-策略：提供参考资料",
+        "question": "智谱ai平台的提示工程介绍-提示工程-策略：提供参考资料",
         "answer": "引用外部资料能有效提升模型回答的准确性。这种做法特别适用于基于文档的问答系统，因为它有助于减少错误或虚构信息的生成，同时确保回答的时效性和准确性。当模型受到上下文长度限制，无法引用超长文本时，可以通过 Retrieval 工具来获取文档中的语义切片来实现。\n推荐示例：作为AI助手，你的任务是帮助用户查找和理解特定公司的规章制度。在这个场景中，你将使用搜索结果来回答用户关于公司请假政策的查询。请根据搜索结果\n\"\"\"具体的搜索结果\"\"\"\n提供准确和详细的信息。"
     },
     {
-        "question": "提示工程-策略:将复杂任务分解为简单的子任务",
+        "question": "智谱ai平台的提示工程介绍-提示工程-策略:将复杂任务分解为简单的子任务",
         "answer": "在处理需求复杂的任务时，错误率通常较高。为了提高效率和准确性，最佳做法是将这些复杂任务重构为一系列简单、连贯的子任务。这种方法中，每个子任务的完成成果依次成为下一任务的起点，形成一个高效的工作流。这样的任务流程简化有助于提升模型整体的处理质量和可靠性，特别是在面对需要综合大量数据和深入分析的复杂问题时。通过将复杂任务拆解，可以更加有效地利用模型的强大处理能力。"
     },
     {
-        "question": "提示工程-技巧：意图理解和实体提取",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：意图理解和实体提取",
         "answer": "要求大模型输出的内容要直接给到后端服务接口使用，所以大模型一定要按照固定格式输出格式，以便于接口解析模型输出内容，防止报错。\n推荐示例：当你理解用户的预约会议室的意图时，提取相关的实体，并且以 Json 格式输出。"
     },
     {
-        "question": "提示工程-技巧：总结上文关键信息",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：总结上文关键信息",
         "answer": "在长对话中，为了确保对话的连贯性和有效性，对之前的交流内容进行精炼和总结，可以保持对话的焦点、减少重复和混乱、加快模型处理速度。"
     },
     {
-        "question": "提示工程-技巧：分段归纳长文档并逐步构建完整摘要",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：分段归纳长文档并逐步构建完整摘要",
         "answer": "由于模型处理文本的上下文长度有限，它无法一次性总结超出特定长度的文本。例如，在总结一本长书时，我们可以采用分步骤的方法，逐章节进行总结。各章节的摘要可以组合在一起，再进行进一步的概括，形成更为精炼的总摘要。这个过程可以重复进行，直到整本书的内容被完整总结。如果后续章节的理解需要依赖于前面章节的信息，那么在当前部分的总结中附加之前内容的连贯摘要，能够显著提升模型的生成质量。"
     },
     {
-        "question": "提示工程-技巧：在模型给出最终结论之前，先引导它进行自我探索和推理。",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：在模型给出最终结论之前，先引导它进行自我探索和推理。",
         "answer": "在明确引导模型进行推理判断之前，让它先生成结果作为基准。例如，如果我们需要模型评估代码的质量，可以先让模型自行生成答案，随后再对其正确性进行评判。这样做不仅促使模型更加深入地理解任务，还可以提高最终结果的准确性和可靠性。\n推荐示例：分析并评估以下 Python 代码片段\"代码片段\"的质量和功能。在生成你的回答之前，请先生成推荐示例代码，然后对代码的结构、清晰度以及其执行的功能进行评分。"
     },
     {
-        "question": "提示工程-技巧：隐藏推理过程，只输出结果",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：隐藏推理过程，只输出结果",
         "answer": "在回答问题之前，模型有时需要进行深入的推理并将推理过程一并输出，可以引导模型只输出结果或者结构化信息以便于解析处理。\n推荐示例：请计算函数 f(x) = x^2 在区间 [0, 1] 上的积分。仅提供最终的积分结果，无需展示推理过程。"
     },
     {
-        "question": "提示工程-策略：使用外部工具增强模型能力",
+        "question": "智谱ai平台的提示工程介绍-提示工程-策略：使用外部工具增强模型能力",
         "answer": "通过让模型访问工具的获取信息来弥补模型的缺陷和拓展功能，如通过 Function Call 访问外部的信息和执行操作，利用 Retrieval 工具访问知识库获取文档信息。"
     },
     {
-        "question": "提示工程-技巧：通过 Function Call 访问外部 API",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：通过 Function Call 访问外部 API",
         "answer": "允许模型访问外部信息和执行操作，信息查询：如实时天气预报、股票市场动态，提供即时且准确的数据，执行操作：比如播放音乐、控制智能家居设备等。\n推荐示例：使用外部 API 查询天气信息的功能。请根据用户的请求，调用相应的天气服务 API ，获取并展示最新的天气信息，包括温度、湿度、天气状况（如晴、雨等），风速和风向。例如，当用户询问‘北京今天的天气如何？’时，应调用API获取北京当前的天气数据，并以用户友好的方式展示结果。"
     },
     {
-        "question": "提示工程-技巧：通过 Retrieval 访问智谱AI 开放平台的知识库",
+        "question": "智谱ai平台的提示工程介绍-提示工程-技巧：通过 Retrieval 访问智谱AI 开放平台的知识库",
         "answer": "通过Retrieval方法访问智谱开放平台的知识库，用户可上传相关的知识到知识库，模型将基于用户的查询，，提取相关的语义切片，提供更加精准详细的信息。\n推荐示例：作为 AI 助手，你的任务是帮助用户查找和理解特定公司的规章制度。用户询问关于公司的相关政策。你将通过搜索公司内部知识库或相关文档，找到最新的规定。根据搜索到的内容，提供关于相关的详细信息。请确保所提供信息的准确性和适用性，帮助用户完全理解公司的政策。"
     },
     {
-        "question": "模型微调-概览",
+        "question": "智谱ai平台的模型微调介绍-模型微调-概览",
         "answer": "什么是模型微调\n模型微调是指通过微调工具，加入企业独有的场景数据，对平台的基础模型进行微调。它可以帮助您快速定制出更符合您业务场景需求的专属大模型。它的优势在于对基础模型进行少量调整，满足特定的需求。相比训练新模型高效且低成本。\n什么场景下适用微调\n您可以先尝试调整提示词或者使用一些工具如函数调用 、检索功能来获得更好的效果。若您仍认为目前的基础模型及相关工具无法提供满意答案或处理复杂推理任务时，可以使用微调获得更好的效果。\n微调可改善效果的典型场景：\n需要采用特定的风格、语调\n需要处理复杂的任务\n需要提高输出的可靠性\n难以通过 Prompt 说明的新任务\n微调方式有哪些\n1. LoRA微调\n含义：通过在模型的现有权重矩阵中添加低秩矩阵来调整模型，可以在增加少量计算负担的情况下有效调整模型。\n优点：\n只需要添加少量参数，参数效率高；\n资源利用少且训练周期较短\n2. 全参微调\n含义：对预训练模型的所有参数进行调整获得新模型。\n优点：\n可以对模型进行全面的调整，使其更好地适应新任务；\n在有足够数据和计算资源的情况下，更可能达到更优的性能。\n哪些模型可以微调\nglm-4-flash（LoRA微调、全参微调，所有用户可用）\nglm-4-9b（LoRA微调、全参微调，所有用户可用）\nchatglm3-6b（LoRA微调，所有用户可用）\nchatglm3-6b 的LoRA微调训练及微调模型推理可通过购买 开发Pro版权益 进行体验。\n微调的步骤\n通常情况下，完成模型微调涉及以下步骤:\n1. 准备并上传训练数据\n2. 训练新的微调模型\n3. 部署并使用微调模型（LoRA微调支持公有池推理，可以不进行部署操作）\n4. 评估结果，如有需要返回到步骤1"
     },
     {
-        "question": "模型微调-准备训练数据",
+        "question": "智谱ai平台的模型微调介绍-模型微调-准备训练数据",
         "answer": "微调训练数据通常由一批包含输入和期望输出的数据构成，每条训练数据由单个输入（Prompt）以及对应的期望输出组成。目前仅支持以 json 格式的文件上传训练数据。\n数据集要求\n通常情况下，提供更多的高质量训练数据，微调效果越好。反之，如果训练数据中存在问题、瑕疵，将对微调效果产生一定的负面影响。\n更多的高质量数据\n为了更好的微调模型，您需要至少提供数百条高质量的训练数据；最好由人工对数据进行过严谨的审查，以保证数据质量和微调效果。增加高质量的训练数据是提高微调效果最佳最可靠的方法。\n根据训练目标调控数据分布\n在您构造训练数据时，需注意根据真实业务场景中的训练目标，构造和调整各类细分任务场景的训练数据量分布，尽量覆盖业务场景所有可能的数据样本。如果您的训练目标是同时强化文本分类、信息提取、文本生成的效果，您需要在训练数据中分别提供适用于这几类任务的足量训练数据。\n避免有害数据\n为保证您的数据隐私性，平台不会对您的数据进行审查，请您务必检查并确保数据中不包含有害信息，包括不限于色情、暴恐违禁、政治敏感、低俗辱骂、隐私信息等有害内容。使用有害数据微调模型，可能导致微调模型容易生成有害内容，使得模型推理结果的敏感信息校验通过率变低。甚至，过于严重的有害模型将无法通过平台或有关部门的内容合规要求，将被平台强制下架。\n数据集格式\n新版数据示例（仅 glm-4-flash、glm-4-9b、chatglm3-6b 支持该版本数据，您可以通过api接口上传或者在模型微调训练页面进行操作）。\n按示例中的格式准备数据集，json 格式，每行一条，存储到文件中并调用文件管理接口上传文件：\n{\"messages\": [{\"role\": \"system\", \"content\": \"你是一位乐于助人，知识渊博的全能AI助手。\"},{\"role\": \"user\", \"content\": \"请介绍一下AlphaGo的基本原理。\"}, {\"role\": \"assistant\", \"content\": \"AlphaGo利用深度神经网络与树搜索算法相结合,通过对弈数据进行训练,逐步提升游戏水平,能够对围棋局面进行判断并选择最佳落子位置。\"}]}\n{\"messages\": [{\"role\": \"system\", \"content\": \"你是一位乐于助人，知识渊博的全能AI助手。\"},{\"role\": \"user\", \"content\": \"请列举一些健康饮食的重要原则。\"}, {\"role\": \"assistant\", \"content\": \"健康饮食的重要原则包括:膳食应营养均衡,合理摄入各种营养素;多吃新鲜蔬果,适量饮水;少吃糖、油、盐,忌吃过量快餐;养成规律生活作息习惯,适量运动。\"}]}\n{\"messages\": [{\"role\": \"system\", \"content\": \"你是一位乐于助人，知识渊博的全能AI助手。\"},{\"role\": \"user\", \"content\": \"请给出一些改善睡眠质量的建议。\"}, {\"role\": \"assistant\", \"content\": \"改善睡眠质量的建议包括:保证睡眠时间,避免睡眠不足;睡前放松身心,远离刺激;养成规律作息时间,不要频繁熬夜;适量运动,但不要运动过度;睡前可以喝一杯热牛奶等温和饮料。\"}]}\n若您不需要上传system则将system段落删除即可，示例如下：\n{\"messages\": [{\"role\": \"user\", \"content\": \"请介绍一下AlphaGo的基本原理。\"}, {\"role\": \"assistant\", \"content\": \"AlphaGo利用深度神经网络与树搜索算法相结合,通过对弈数据进行训练,逐步提升游戏水平,能够对围棋局面进行判断并选择最佳落子位置。\"}]}"
     },
     {
-        "question": "模型微调-创建微调任务",
+        "question": "智谱ai平台的模型微调介绍-模型微调-创建微调任务",
         "answer": "如您已经按照上述说明准备好了优质的训练数据，接下来您可以开始创建微调任务，训练模型。\n您可通过页面操作微调任务创建，入口如下：\n创建微调任务入口1：模型广场 点击模型卡片内微调按键\n创建微调任务入口2：微调任务 「+创建微调任务」按键\n创建微调任务时，您可以根据需要为新模型命名，并指定模型编码的后缀。其他参数设置请参考微调 API 接口文档。创建微调任务后需要几分钟至几小时完成训练，具体取决于模型规模和数据集大小。训练完成后我们会通过短信通知您。"
     },
     {
-        "question": "模型微调-部署微调模型",
+        "question": "智谱ai平台的模型微调介绍-模型微调-部署微调模型",
         "answer": "模型完成训练后可进行部署，部署入口如下：\n入口1：模型广场 点击模型卡片内部署按键\n入口2：私有实例 「+创建部署任务」按键"
     },
     {
-        "question": "模型微调-使用微调模型",
+        "question": "智谱ai平台的模型微调介绍-模型微调-使用微调模型",
         "answer": "模型完成微调训练后，您可以通过体验中心或 API 使用该模型。 通过API请求时，您可以将您命名的新模型编码作为 model 参数的值来传参发出请求。"
     },
     {
-        "question": "模型微调-调用示例",
-        "answer": "from zhipuai import ZhipuAI\nclient = ZhipuAI(api_key=\"\")\nresponse = client.chat.completions.create(\n    model=\"chatglm3-6b-1001\","
+        "question": "智谱ai平台的模型微调介绍-模型微调-调用示例",
+        "answer": "from zhipuai import ZhipuAI\nclient = ZhipuAI(api_key=\"\")\nresponse = client.chat.completions.create(\n    model=\"chatglm3-6b-1001\", \n    messages=[\n        {\"role\": \"system\", \"content\": \"你是一个人工智能助手，你叫叫chatGLM\"},\n        {\"role\": \"user\", \"content\": \"你好！你叫什么名字\"},\n    ],\n    stream=True,\n)\nfor chunk in response:\n    print(chunk.choices[0].delta)"
     },
     {
-        "question": "模型微调-填写需要调用的模型名称",
-        "answer": "messages=[\n        {\"role\": \"system\", \"content\": \"你是一个人工智能助手，你叫叫chatGLM\"},\n        {\"role\": \"user\", \"content\": \"你好！你叫什么名字\"},\n    ],\n    stream=True,\n)\nfor chunk in response:\n    print(chunk.choices[0].delta)"
-    },
-    {
-        "question": "通用搜索-介绍",
+        "question": "智谱ai平台的通用搜索介绍-通用搜索-通用搜索介绍",
         "answer": "通用搜索web_search工具通过网络搜索获取信息，以增强语言模型输出的质量和时效性。"
     },
     {
-        "question": "通用搜索-启用与禁用 web_search",
-        "answer": "语言模型于2024年8月9日起默认关闭web_search 工具。当开启网络搜索时，搜索结果将作为背景知识输入给模型，每次调用将消耗约 1000 tokens。您可以通过以下方式手动开启此功能:\nfrom zhipuai import ZhipuAI\n\nclient = ZhipuAI(api_key=\"您的APIKey\")\n\ntools = [{\n    \"type\": \"web_search\",\n    \"web_search\": {\n        \"enable\": True"
+        "question": "智谱ai平台的通用搜索介绍-通用搜索-通用搜索用法-启用与禁用 web_search",
+        "answer": "语言模型于2024年8月9日起默认关闭web_search 工具。当开启网络搜索时，搜索结果将作为背景知识输入给模型，每次调用将消耗约 1000 tokens。您可以通过以下方式手动开启此功能:\nfrom zhipuai import ZhipuAI\n\nclient = ZhipuAI(api_key=\"您的APIKey\")\n\ntools = [{\n    \"type\": \"web_search\",\n    \"web_search\": {\n        \"enable\": True \n    }\n}]\n\nmessages = [{\n    \"role\": \"user\",\n    \"content\": \"中国 2024 年一季度的GDP是多少 \"\n}]\n\nresponse = client.chat.completions.create(\n    model=\"glm-4\",\n    messages=messages,\n    tools=tools\n)\nprint(response.choices[0].message)"
     },
     {
-        "question": "通用搜索-禁用：False，启用：True，默认为 True。",
-        "answer": "}\n}]\n\nmessages = [{\n    \"role\": \"user\",\n    \"content\": \"中国 2024 年一季度的GDP是多少 \"\n}]\n\nresponse = client.chat.completions.create(\n    model=\"glm-4\",\n    messages=messages,\n    tools=tools\n)\nprint(response.choices[0].message)"
-    },
-    {
-        "question": "通用搜索-自定义搜索内容",
+        "question": "智谱ai平台的通用搜索介绍-通用搜索-通用搜索用法-自定义搜索内容",
         "answer": "使用search_query参数可以自定义搜索内容，提升搜索结果的相关性和精确度。 如果不传search_query参数，系统将根据用户的消息自动进行网页检索。\nfrom zhipuai import ZhipuAI\n\nclient = ZhipuAI(api_key=\"您的APIKey\")\n\ntools = [{\n    \"type\": \"web_search\",\n    \"web_search\": {\n        \"enable\": True,\n        \"search_query\": \"自定义搜索的关键词\"\n    }\n}]\n\nmessages = [{\n    \"role\": \"user\",\n    \"content\": \"中国 2024 年一季度的GDP是多少\"\n}]\n\nresponse = client.chat.completions.create(\n    model=\"glm-4\",\n    messages=messages,\n    tools=tools\n)\nprint(response.choices[0].message)"
     },
     {
-        "question": "通用搜索-检索指定网页",
-        "answer": "访问指定网址以检索网页内容，将作为背景知识输入给模型。注意：由于某些网站的访问限制，可能无法读取页面内容。\nfrom zhipuai import ZhipuAI\n\nclient = ZhipuAI(api_key=\"\")"
+        "question": "智谱ai平台的通用搜索介绍-通用搜索-通用搜索用法-检索指定网页",
+        "answer": "访问指定网址以检索网页内容，将作为背景知识输入给模型。注意：由于某些网站的访问限制，可能无法读取页面内容。\nfrom zhipuai import ZhipuAI\n\nclient = ZhipuAI(api_key=\"\")\n\nmessages = [\n    {\n        \"role\": \"user\",\n        \"content\": \"总结文中的内容：https://news.sciencenet.cn/htmlnews/2024/3/519107.shtm\"\n    }\n]\nresponse = client.chat.completions.create(\n    model=\"glm-4\",\n    messages=messages,\n)\nprint(response.choices[0].message)"
     },
     {
-        "question": "通用搜索-请填写您自己的APIKey",
-        "answer": "messages = [\n    {\n        \"role\": \"user\",\n        \"content\": \"总结文中的内容：https://news.sciencenet.cn/htmlnews/2024/3/519107.shtm\"\n    }\n]\nresponse = client.chat.completions.create(\n    model=\"glm-4\","
+        "question": "智谱ai平台的通用搜索介绍-通用搜索-通用搜索用法-返回搜索来源",
+        "answer": "启用search_result参数允许用户获取详细的网页搜索来源信息，包括来源网站的图标、标题、链接、来源名称以及引用的文本内容。\nfrom zhipuai import ZhipuAI\n\nclient = ZhipuAI(api_key=\"您的APIKey\")\n\ntools = [{\n    \"type\": \"web_search\",\n    \"web_search\": {\n        \"enable\": True,\n        \"search_result\": True \n    }\n}]\n\nmessages = [{\n    \"role\": \"user\",\n    \"content\": \"最新的AI发展趋势\"\n}]\n\nresponse = client.chat.completions.create(\n    model=\"glm-4\",\n    messages=messages,\n    tools=tools\n)\nprint(response)"
     },
     {
-        "question": "通用搜索-填写需要调用的模型名称",
-        "answer": "messages=messages,\n)\nprint(response.choices[0].message)"
+        "question": "智谱ai平台的通用搜索介绍-通用搜索-通用搜索用法-使用 Prompt 添加搜索角标",
+        "answer": "使用search_prompt允许用户自定义模型引用搜索结果的方式，prompt 必须包含{search_result}表示搜索结果，例如：\nsearch_prompt = \"\"\"\n\n以下是来自互联网的信息：\n{search_result}\n\n当前日期: 2024-XX-XX\n\n要求：\n根据最新发布的信息回答用户问题，当回答引用了参考信息时，必须在句末使用对应的[ref_序号]来标明参考信息来源。\n\n\"\"\"\n启用search_result参数允许用户获取详细的网页搜索来源信息，返回角标序号'refer': 'ref_序号'，可用于关联模型回答所引用的搜索角标。\nfrom zhipuai import ZhipuAI\n\nsearch_prompt = \"\"\"\n\n以下是来自互联网的信息：\n{search_result}\n\n当前日期: 2024-06-06\n\n要求：\n根据最新发布的信息回答用户问题，当回答引用了参考信息时，必须在句末使用对应的[ref_序号]来标明参考信息来源。\n\n\"\"\"\n\nclient = ZhipuAI(api_key=zhipu_api_key)\n\ntools = [{\n      \"type\": \"web_search\",\n      \"web_search\": {\n          \"enable\": True,\n          \"search_query\": \"最近国内有哪些新闻\",\n          \"search_result\": True,\n          \"search_prompt\": search_prompt\n      }\n  }]\n\n\nresponse = client.chat.completions.create(\n    model=\"glm-4\", \n    messages=[\n        {\"role\": \"user\", \"content\": \"问：最近国内有哪些新闻，答：\"}\n    ],\n    top_p=0.7,\n    temperature=0.1,\n    tools=tools\n)\n\nprint(response)"
     },
     {
-        "question": "通用搜索-返回搜索来源",
-        "answer": "启用search_result参数允许用户获取详细的网页搜索来源信息，包括来源网站的图标、标题、链接、来源名称以及引用的文本内容。\nfrom zhipuai import ZhipuAI\n\nclient = ZhipuAI(api_key=\"您的APIKey\")\n\ntools = [{\n    \"type\": \"web_search\",\n    \"web_search\": {\n        \"enable\": True,\n        \"search_result\": True"
-    },
-    {
-        "question": "通用搜索-禁用False，启用：True，默认为禁用",
-        "answer": "}\n}]\n\nmessages = [{\n    \"role\": \"user\",\n    \"content\": \"最新的AI发展趋势\"\n}]\n\nresponse = client.chat.completions.create(\n    model=\"glm-4\",\n    messages=messages,\n    tools=tools\n)\nprint(response)"
-    },
-    {
-        "question": "通用搜索-使用 Prompt 添加搜索角标",
-        "answer": "使用search_prompt允许用户自定义模型引用搜索结果的方式，prompt 必须包含{search_result}表示搜索结果，例如：\nsearch_prompt = \"\"\""
-    },
-    {
-        "question": "通用搜索-以下是来自互联网的信息：",
-        "answer": "{search_result}"
-    },
-    {
-        "question": "通用搜索-要求：",
-        "answer": "根据最新发布的信息回答用户问题，当回答引用了参考信息时，必须在句末使用对应的[ref_序号]来标明参考信息来源。\n\n\"\"\"\n启用search_result参数允许用户获取详细的网页搜索来源信息，返回角标序号'refer': 'ref_序号'，可用于关联模型回答所引用的搜索角标。\nfrom zhipuai import ZhipuAI\n\nsearch_prompt = \"\"\""
-    },
-    {
-        "question": "通用搜索-以下是来自互联网的信息：",
-        "answer": "{search_result}"
-    },
-    {
-        "question": "通用搜索-要求：",
-        "answer": "根据最新发布的信息回答用户问题，当回答引用了参考信息时，必须在句末使用对应的[ref_序号]来标明参考信息来源。\n\n\"\"\"\n\nclient = ZhipuAI(api_key=zhipu_api_key)"
-    },
-    {
-        "question": "通用搜索-填写您自己的APIKey",
-        "answer": "tools = [{\n      \"type\": \"web_search\",\n      \"web_search\": {\n          \"enable\": True,\n          \"search_query\": \"最近国内有哪些新闻\",\n          \"search_result\": True,\n          \"search_prompt\": search_prompt\n      }\n  }]\n\n\nresponse = client.chat.completions.create(\n    model=\"glm-4\","
-    },
-    {
-        "question": "通用搜索-填写需要调用的模型名称",
-        "answer": "messages=[\n        {\"role\": \"user\", \"content\": \"问：最近国内有哪些新闻，答：\"}\n    ],\n    top_p=0.7,\n    temperature=0.1,\n    tools=tools\n)\n\nprint(response)"
-    },
-    {
-        "question": "速率限制指南-速率限制",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-速率限制",
         "answer": "用户的API 使用会受到速率限制，当前我们限制的维度是请求并发数量。"
     },
     {
-        "question": "速率限制指南-为什么要做速率限制",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-为什么要做速率限制",
         "answer": "有效防止请求过载：帮助管理总负载情况，避免请求激增导致的服务器性能问题，提高服务可靠性。\n保障资源的公平性及合理利用：避免某一方过多的请求，影响其他方使用。保障更多方的请求调用和用户的使用体验。\n安全防护：防止恶意性的攻击，提高整体网络安全。"
     },
     {
-        "question": "速率限制指南-用量级别等级",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-用量级别等级",
         "answer": "当前我们基于用户的月度 API 调用消耗金额情况将速率控制分为6种等级。\n消耗金额选取逻辑：我们会选取用户当前月份1号～t-1日的调用 API 推理消耗总金额和用户上个月的 API 调用消耗总金额做比较，取更高金额作为用户当前的 API 消耗金额。\n特别的，若您从未曾付费充值/购买过资源包，则会归为免费级别。\n用量级别|资质\n免费|api调用消耗0元-50元/每月（不含）\n用量级别1|api调用消耗50元-500元/每月（不含）\n用量级别2|api调用消耗500元-5000元/每月（不含）\n用量级别3|api调用消耗5000元-10000元/每月（不含）\n用量级别4|api调用消耗10000元-30000元/每月（不含）\n用量级别5|api调用消耗30000元以上/每月\n选择级别，查看各模型在对应级别下的限制"
     },
     {
-        "question": "速率限制指南-用量等级为“免费”",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-用量等级为“免费”",
         "answer": "模型分类|模型名称|并发数限制\n通用模型|GLM-4-0520|5\n通用模型|GLM-4-AllTools|5\n通用模型|GLM-4-Air|5\n通用模型|GLM-4-Long|5\n通用模型|GLM-4-AirX|5\n通用模型|GLM-4-Flash|5\n通用模型|GLM-4V|5\n图像大模型|CogView-3|5\n视频模型|CogVideoX|1\n向量模型|Embedding-2|5\n通用模型|CharGLM-3|5\n向量模型|Embedding-3|1\n通用模型|GLM-4|5\n通用模型|GLM-3-Turbo|5\n代码模型|CodeGeeX-4|5\n通用模型|Web-Search-Pro|1"
     },
     {
-        "question": "速率限制指南-用量等级为“用量级别1”",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-用量等级为“用量级别1”",
         "answer": "模型分类|模型名称|并发数限制\n通用模型|GLM-4-0520|10\n通用模型|GLM-4-AllTools|10\n通用模型|GLM-4-Air|50\n通用模型|GLM-4-Long|10\n通用模型|GLM-4-AirX|10\n通用模型|GLM-4-Flash|10\n通用模型|GLM-4V|10\n图像大模型|CogView-3|10\n视频模型|CogVideoX|2\n向量模型|Embedding-2|10\n通用模型|CharGLM-3|10\n向量模型|Embedding-3|2\n通用模型|GLM-4|10\n通用模型|GLM-3-Turbo|50\n代码模型|CodeGeeX-4|10\n通用模型|Web-Search-Pro|2"
     },
     {
-        "question": "速率限制指南-用量等级为“用量级别2”",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-用量等级为“用量级别2”",
         "answer": "模型分类|模型名称|并发数限制\n通用模型|GLM-4-0520|15\n通用模型|GLM-4-AllTools|15\n通用模型|GLM-4-Air|70\n通用模型|GLM-4-Long|15\n通用模型|GLM-4-AirX|15\n通用模型|GLM-4-Flash|50\n通用模型|GLM-4V|20\n图像大模型|CogView-3|15\n视频模型|CogVideoX|3\n向量模型|Embedding-2|20\n通用模型|CharGLM-3|20\n向量模型|Embedding-3|4\n通用模型|GLM-4|20\n通用模型|GLM-3-Turbo|70\n代码模型|CodeGeeX-4|20\n通用模型|Web-Search-Pro|3"
     },
     {
-        "question": "速率限制指南-用量等级为“用量级别3”",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-用量等级为“用量级别3”",
         "answer": "模型分类|模型名称|并发数限制\n通用模型|GLM-4-0520|20\n通用模型|GLM-4-AllTools|20\n通用模型|GLM-4-Air|150\n通用模型|GLM-4-Long|20\n通用模型|GLM-4-AirX|20\n通用模型|GLM-4-Flash|100\n通用模型|GLM-4V|30\n图像大模型|CogView-3|20\n视频模型|CogVideoX|4\n向量模型|Embedding-2|30\n通用模型|CharGLM-3|30\n向量模型|Embedding-3|6\n通用模型|GLM-4|30\n通用模型|GLM-3-Turbo|150\n代码模型|CodeGeeX-4|30\n通用模型|Web-Search-Pro|4"
     },
     {
-        "question": "速率限制指南-用量等级为“用量级别4”",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-用量等级为“用量级别4”",
         "answer": "模型分类|模型名称|并发数限制\n通用模型|GLM-4-0520|25\n通用模型|GLM-4-AllTools|25\n通用模型|GLM-4-Air|300\n通用模型|GLM-4-Long|25\n通用模型|GLM-4-AirX|25\n通用模型|GLM-4-Flash|200\n通用模型|GLM-4V|50\n图像大模型|CogView-3|30\n视频模型|CogVideoX|5\n向量模型|Embedding-2|40\n通用模型|CharGLM-3|40\n向量模型|Embedding-3|40\n通用模型|GLM-4|100\n通用模型|GLM-3-Turbo|300\n代码模型|CodeGeeX-4|100\n通用模型|Web-Search-Pro|5"
     },
     {
-        "question": "速率限制指南-用量等级为“用量级别5”",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-用量等级为“用量级别5”",
         "answer": "模型分类|模型名称|并发数限制\n通用模型|GLM-4-0520|30\n通用模型|GLM-4-AllTools|30\n通用模型|GLM-4-Air|1000\n通用模型|GLM-4-Long|30\n通用模型|GLM-4-AirX|30\n通用模型|GLM-4-Flash|300\n通用模型|GLM-4V|100\n图像大模型|CogView-3|40\n视频模型|CogVideoX|6\n向量模型|Embedding-2|50\n通用模型|CharGLM-3|50\n向量模型|Embedding-3|10\n通用模型|GLM-4|200\n通用模型|GLM-3-Turbo|1000\n代码模型|CodeGeeX-4|200\n通用模型|Web-Search-Pro|6"
     },
     {
-        "question": "速率限制指南-其他说明",
+        "question": "智谱ai平台的速率限制指南介绍-速率限制指南-其他说明",
         "answer": "我们会尽可能的保障用户的正常使用，若评估负载有风险时会根据用户用量等级对应并发数进行相关限制。\n私有模型的速率限制情况和部署的实例数量相关，未部署时并发为0。\n针对企业权益用户，智谱官方大模型的速率限制将收到并发数量保障，我们将择取企业权益与用量级别两项权益服务中并发数量最高者，为您提供速率限制服务"
+    },
+    {
+        "question": "z计划-关于智谱ai的「Z计划」介绍-关于智谱ai的「Z计划」介绍",
+        "answer": "支持大模型创业\n\n面向全球的大模型创业者，并提供资金、技术、算力和场地等全方位支持。初创企业可以申请获得投资支持，同时也可以申请智谱 AI 大模型服务代金券，用于抵扣相关费用。申请对象不限，涵盖AI大模型相关的任何行业和场景。\n申请加入"
+    },
+    {
+        "question": "智谱ai平台的公司主体-北京智谱华章科技有限公司-关于智谱ai的公司主体-北京智谱华章科技有限公司的工商基本信息-关于智谱ai的公司主体-北京智谱华章科技有限公司的工商基本信息",
+        "answer": "法定代表人：\t刘德兵\n纳税人识别号：\t91110108MA01KP2T5U\n名称：\t北京智谱华章科技有限公司\n机构代码：\tMA01KP2T5\n注册号：\t110108027284883\n注册资本：\t2,084.5629(万人民币)\n统一社会信用代码：\t91110108MA01KP2T5U\n登记机关：\t北京市海淀区市场监督管理局\n经营状态：\t在业\n成立日期：\t2019-06-11\n企业类型：\t有限责任公司(外商投资、非独资)\n经营期限：\t2023-11-24 至 永续经营所属地区：\t北京\n核准日期：\t2024-03-08\n企业地址：\t北京市海淀区中关村东路1号院9号楼10层整层\n经营范围：\t一般项目：技术服务、技术开发、技术咨询、技术交流、技术转让、技术推广；人工智能基础软件开发；人工智能应用软件开发；软件开发；数据处理和存储支持服务；数据处理服务；信息技术咨询服务；人工智能理论与算法软件开发；数字内容制作服务（不含出版发行）；大数据服务；会议及展览服务；企业形象策划；企业管理；广告发布；机械设备销售；计算机软硬件及辅助设备零售；专业设计服务；工业设计服务；电子产品销售；科技中介服务；人力资源服务（不含职业中介活动、劳务派遣服务）；软件销售。（除依法须经批准的项目外，凭营业执照依法自主开展经营活动）许可项目：职业中介活动；第二类增值电信业务。（依法须经批准的项目，经相关部门批准后方可开展经营活动，具体经营项目以相关部门批准文件或许可证件为准）（不得从事国家和本市产业政策禁止和限制类项目的经营活动。）\n\n所属行业：\t其他科技推广和应用服务业 ;刘德兵企业查询\n展会标签：\t服务贸易；软件\n业务标签：\t服务；软件；动画设计；技术咨询\n其他标签：\n专精特新企业\n专精特新中小企业\n瞪羚企业\n高新技术企业\n规模以上服务业\n行业标准制定企业\n国家标准制定企业"
+    },
+    {
+        "question": "智谱ai平台的公司主体-北京智谱华章科技有限公司-关于智谱ai的公司主体-北京智谱华章科技有限公司的工商基本信息-关于智谱ai的公司主体-北京智谱华章科技有限公司的成员信息10",
+        "answer": "刘德兵\n经理,董事长\n\n王培培\n财务负责人\n\n王绍兰\n董事\n\n唐杰\n董事\n\n张鹏\n董事,CEO\n\n李家庆\n董事\n\n李涓子\n董事\n\n项晓波\n董事\n\n张海峰\n董事\n\n鄢兴雨\n监事"
+    },
+    {
+        "question": "智谱ai平台的公司主体-北京智谱华章科技有限公司-关于智谱ai的公司主体-北京智谱华章科技有限公司的工商基本信息-关于智谱ai的公司主体-北京智谱华章科技有限公司的股东信息29",
+        "answer": "序号发起人名称认缴持股比例实缴\n\n1北京凯爱格尔科技发展中心（有限合伙）\n法人股东\n357.9905万元17.9742%--\n\n2唐杰\n自然人股东\n227.0269万元11.3987%--\n\n3天津三快科技有限公司\n企业法人\n172.1731万元8.6446%--\n\n4苏州君联相道股权投资合伙企业（有限合伙）\n企业法人\n138.1253万元6.9351%--\n\n5华控技术转移有限公司\n企业法人\n124.85万元6.2686%--\n\n6全德美嘉有限公司\n外商投资企业\n113.4991万元5.6986%--\n\n7宁波智登企业管理合伙企业（有限合伙）\n内资合伙企业\n85.0562万元4.2706%--\n\n8宁波慧惠企业管理合伙企业（有限合伙）\n内资合伙企业\n83.3333万元4.1841%--\n\n9枣庄通智股权投资合伙企业（有限合伙）\n企业法人\n70.6767万元3.5486%--\n\n10深圳市达晨创鸿私募股权投资企业（有限合伙）\n企业法人\n63.6853万元3.1976%--\n\n11北京中科创星硬科技创业投资合伙企业（有限合伙）\n内资合伙企业\n59.1227万元2.9685%--\n\n12北京达凡企业管理合伙企业（有限合伙）\n企业法人\n53.9898万元2.7108%--\n\n13杭州多项网络科技有限公司\n企业法人\n50.458万元2.5334%--\n\n14上海云玡企业管理咨询有限公司\n企业法人\n50.458万元2.5334%--\n\n15苏州启明融乾股权投资合伙企业（有限合伙）\n企业法人\n48.8137万元2.4509%--\n\n16青岛华控成长股权投资合伙企业（有限合伙）\n企业法人\n35.2765万元1.7712%--\n\n17天津合远优择壹号创业投资合伙企业（有限合伙）\n企业法人\n34.6515万元1.7398%--\n\n18昆山市启明融凯股权投资合伙企业（有限合伙）\n企业法人\n34.0042万元1.7073%--\n\n19李涓子\n自然人股东\n33.6776万元1.6909%--\n\n20北京华控产业投资基金（有限合伙）\n企业法人\n30.0752万元1.51%--\n\n21北京荣品投资管理有限公司\n企业法人\n30.0752万元1.51%--\n\n22北京创新智源科技有限公司\n企业法人\n25.9398万元1.3024%--\n\n23北京将门创业投资中心（有限合伙）\n企业法人\n15.0376万元0.755%--\n\n24凌云光技术股份有限公司\n企业法人\n15.0376万元0.755%--\n\n25刘德兵\n自然人股东\n12.1595万元0.6105%--\n\n26杭州光合贰期创业投资合伙企业（有限合伙）\n企业法人\n8.6629万元0.435%--\n\n27许斌\n自然人股东\n7.9904万元0.4012%--\n\n28深圳市财智创赢私募股权投资企业（有限合伙）\n企业法人\n5.8443万元0.2934%--\n\n29张鹏\n自然人股东\n3.9952万元0.2006%--"
+    },
+    {
+        "question": "智谱ai平台的关于我们-关于智谱ai的的介绍-关于智谱ai的的介绍",
+        "answer": "让机器像人一样思考\n打造超越图灵测试的机器认知智能，实现SaaS、PaaS到MaaS的升级，模型化服务时代的引领者\n专注中文认知大模型，赋能应用\n自主创新的算法、领先的中文认知大模型企业\n北京智谱华章科技有限公司（简称“智谱AI”）致力于打造新一代认知智能大模型，专注于做大模型的中国创新。公司合作研发了中英双语千亿级超大规模预训练模型GLM-130B，并基于此推出对话模型ChatGLM，开源单卡版模型ChatGLM-6B。同时，团队还打造了AIGC模型及产品矩阵，包括AI提效助手智谱清言（chatglm.cn）、高效率代码模型CodeGeeX、多模态理解模型CogVLM和文生图模型CogView等。公司践行Model as a Service（MaaS）的市场理念，推出大模型MaaS开放平台（https://open.bigmodel.cn/），打造高效率、通用化的“模型即服务”AI开发新范式。通过认知大模型链接物理世界的亿级用户，智谱AI基于完整的模型生态和全流程技术支持，为千行百业带来持续创新与变革，加速迈向通用人工智能的时代。"
+    },
+    {
+        "question": "智谱ai平台的关于我们-关于智谱ai的的介绍-关于智谱ai的发展历程介绍",
+        "answer": "2024.01\n\n新一代基座大模型GLM-4正式推出，整体性能相比上一代大幅提升，比肩世界先进水平\n2023.10\n\n推出新一代多模态大模型CogVLM\n\n发布全面升级的ChatGLM3模型及相关系列产品\n\n2023.06\n\n发布全面升级的ChatGLM2模型矩阵，多样尺寸，丰富场景，模型能力登顶C-Eval榜单\n2023.08\n\n作为国内首批通过备案的大模型产品，AI生成式助手“智谱清言”正式上线\n2023.05\n\n开源多模态对话模型VisualGLM-6B（CogVLM）\n2023.03\n\n发布千亿基座的对话模型ChatGLM及其单卡开源版本ChatGLM-6B，全球下载量超过800万\n\n2022.09\n\n发布代码生成模型CodeGeeX，每天帮助程序员编写1000万行代码\n2022.10\n\n发布开源的100+语言预训练模型mGLM-1B\n2022.08\n\n发布高精度千亿大模型GLM-130B并开源，效果对标GPT-3 175B，收到70余个国家1000余个研究机构的使用需求\n2021.09\n\n设计GLM算法，发布拥有自主知识产权的开源百亿大模型GLM-10B\n\n2019.06\n\n智谱AI成立，源自清华技术成果，专注大模型算法研究\n2020.01"
+    },
+    {
+        "question": "智谱ai平台的关于我们-关于智谱ai的的介绍-关于智谱ai的智谱AI的团队介绍",
+        "answer": "智谱AI汇集了行业领先的人才、算力和数据，我们的愿景是实现“让机器像人一样思考”，让技术更好地服务社会，打造支持不同场景、不同方向的智能应用程序的底层人工智能架构，不断开拓努力实现人工智能的行业普惠。"
+    },
+    {
+        "question": "智谱ai平台的关于智谱介绍-关于智谱ai的的介绍-关于智谱ai的的介绍",
+        "answer": "一群有激情的年轻人，聚在一起，做一件创新的对社会有价值的事。智谱AI致力于打造新一代认知智能大模型，专注于做大模型的中国创新。新一代基座大模型GLM-4，整体性能相比上一代大幅提升，比肩世界先进水平。 基于全自研基座大模型的强大能力，智谱 AI 构建了极具竞争力的AIGC模型产品矩阵，包括AI提效助手智谱清言、高效率代码模型CodeGeeX、多模态理解模型CogVLM和文生图模型CogView等。\n践行Model as a Service 市场理念，智谱AI致力于打造高效率、通用化的“模型即服务”开发新范式，通过大模型链接物理世界的亿级用户，为千行百业带来持续创新与变革，加速迈向通用人工智能的时代。"
+    },
+    {
+        "question": "智谱ai平台的关于智谱介绍-关于智谱ai的的介绍-关于智谱ai的福利介绍",
+        "answer": "01.弹性办公自由工作，高效非凡\n02.丰厚年假平衡工作，享受生活\n03.下午茶团建欢乐时光，凝聚力量"
+    },
+    {
+        "question": "智谱ai平台的发展历程介绍-关于智谱ai的发展历程介绍-关于智谱ai的发展历程介绍",
+        "answer": "2024.01\n\n新一代基座大模型GLM-4正式推出，整体性能相比上一代大幅提升，比肩世界先进水平\n2023.10\n\n推出新一代多模态大模型CogVLM\n\n发布全面升级的ChatGLM3模型及相关系列产品\n\n2023.06\n\n发布全面升级的ChatGLM2模型矩阵，多样尺寸，丰富场景，模型能力登顶C-Eval榜单\n2023.08\n\n作为国内首批通过备案的大模型产品，AI生成式助手“智谱清言”正式上线\n2023.05\n\n开源多模态对话模型VisualGLM-6B（CogVLM）\n2023.03\n\n发布千亿基座的对话模型ChatGLM及其单卡开源版本ChatGLM-6B，全球下载量超过800万\n\n2022.09\n\n发布代码生成模型CodeGeeX，每天帮助程序员编写1000万行代码\n2022.10\n\n发布开源的100+语言预训练模型mGLM-1B\n2022.08\n\n发布高精度千亿大模型GLM-130B并开源，效果对标GPT-3 175B，收到70余个国家1000余个研究机构的使用需求\n2021.09\n\n设计GLM算法，发布拥有自主知识产权的开源百亿大模型GLM-10B\n\n2019.06\n\n智谱AI成立，源自清华技术成果\n2020.01"
+    },
+    {
+        "question": "智谱ai平台的商业化介绍介绍-开放平台-开放平台",
+        "answer": "新一代认知智能大模型, 生成式AI时代的基座\n\n访问开放平台\nPOWERED BY\nOUR BIG MODELS\n\n\n\n\n智谱清言\n基于GLM模型开发, 支持多轮对话, 具备内容创作、信息归纳总结等能力\n立即体验\n下载客户端&APP :\n\nWindows\n\nmacOS\n\nAPP下载"
+    },
+    {
+        "question": "智谱ai平台的商业化介绍介绍-开放平台-关于智谱ai发布的产品",
+        "answer": "将新一代的解决方案带给每个企业和个人\n\n\n智谱AI开放平台\n领先的认知大模型AI开放平台\n\n智谱清言\n初具问答和对话能力的千亿基座对话模型\n\nCodeGeeX\n免费的AI编程助手，每天帮程序员编写400万行代码\n\n写作蛙\n快速生成AI原创的高质量内容创意\n\n小呆对话\n支持定制人设的个性化对话模型\n\nCogView\n输入文字描述，AI帮你作画\n\nAMiner\n领先的学术科技情报大数据挖掘与服务系统\n\n塔尖人才\n基于1.3亿全球科技人才大数据及AI技术赋能机构人才事业\n\n知因分析\n基于科技知识图谱的科技大数据智能分析系统\n\n小科问答\n数据与知识双轮驱动的“科普数字脑”系统\n\n至远推送\n应用AI分析技术，提升文献传播的及时性及有效性\n\n若邻画像\n为期刊编辑部建立全球视野下的“期刊朋友圈”\n\n智慧手语\n高逼真手语播报数字人生成模型\n\n有时\n面向高校毕业生的求职能力提升平台\n\n手语词典\n用数字人呈现手语词汇数字人视频\n\n智谱AI开放平台\n领先的认知大模型AI开放平台\n\n智谱清言\n初具问答和对话能力的千亿基座对话模型\n\nCodeGeeX\n免费的AI编程助手，每天帮程序员编写400万行代码\n\n写作蛙\n快速生成AI原创的高质量内容创意\n\n小呆对话\n支持定制人设的个性化对话模型\n\nCogView\n输入文字描述，AI帮你作画\n\nAMiner\n领先的学术科技情报大数据挖掘与服务系统\n\n塔尖人才\n基于1.3亿全球科技人才大数据及AI技术赋能机构人才事业\n\n知因分析\n基于科技知识图谱的科技大数据智能分析系统\n\n小科问答\n数据与知识双轮驱动的“科普数字脑”系统\n\n至远推送\n应用AI分析技术，提升文献传播的及时性及有效性\n\n若邻画像\n为期刊编辑部建立全球视野下的“期刊朋友圈”\n\n智慧手语\n高逼真手语播报数字人生成模型\n\n有时\n面向高校毕业生的求职能力提升平台\n\n手语词典\n用数字人呈现手语词汇数字人视频\n客户与伙伴\n70余个国家、千所研究机构、数万企业正与我们共建AI的美好未来"
+    },
+    {
+        "question": "智谱ai平台的商业化介绍介绍-开放平台-关于智谱ai的「Z计划」介绍",
+        "answer": "支持大模型创业\n\n面向全球的大模型创业者，并提供资金、技术、算力和场地等全方位支持。初创企业可以申请获得投资支持，同时也可以申请智谱 AI 大模型服务代金券，用于抵扣相关费用。申请对象不限，涵盖AI大模型相关的任何行业和场景。\n申请加入\n1000+\n初创企业已获得Z计划不同程度支持"
+    },
+    {
+        "question": "智谱ai平台的场景示例介绍-关于智谱ai的的场景示例介绍-关于智谱ai的的场景示例介绍",
+        "answer": "智能客服\n快速解答用户问题，提供高效便捷的服务\n\n智能问答\n\n信息提取\n从非结构化的背景信息文本中提取出格式化数据\n\n实体抽取\n\n情感分类\n准确识别并分类文本中的情感倾向\n\n效率提升\n\n社媒文案\n创作高质量的小红书、朋友圈、微博等社媒平台文案\n\n智能创作\n\nSQL转换器\n理解用户的日常语言描述，并转换成有效的SQL查询语句\n\n效率提升\n\n思维导图\n使用Mermaid格式生成思维导图\n\n效率提升\n\n文章创作\n根据输入的标题、主题、风格等要求生成文章\n\n创意助手\n\n新闻摘要\n联网搜索新闻，快速进行分析并总结\n\nAI搜索\n\n代码调试\n帮助用户找到并解决代码中的错误\n\n效率提升\n\n视频脚本\n将您的创意变成高质量的视频脚本，为您的创作赋能\n\n智能创作\n\n上下文问答\n理解给出的文本信息，准确回答您的相关问题\n\n智能问答\n\n网页设计\n基于任务描述编写网站代码\n\n效率提升\n\n写作改进\n按照指令要求对现有文本进行润色、改写等操作\n\n智能创作\n\n故事创作\n根据指令创作你自己的故事段落,随心所欲发挥想象\n\n创意助手\n\n知识问答\n随叫随到的智能知识助手，为您提供最准确的信息\n\n智能问答\n\n标题创作\n根据输入的关键词或描述生成高质量标题\n\n智能创作\n\n会议记录\n根据用户提供的信息，撰写一份清晰、准确的会议记录。\n\n效率提升\n\nExcel助手\n根据用户描述的任务，提供准确高效的Excel公式。\n\n效率提升\n\n旅行规划\n制定全面而详细的旅行计划，包括目的地、行程、住宿、交通和活动安排。\n\n创意助手\n\n头脑风暴\n借助大模型激活更多命题，开启头脑风暴，把握灵感闪光\n\n创意助手\n\n课程计划\n设计一个全面且结构化的课程计划\n\n创意助手\n\n面试助手\n为特定职位生成一套多样化和相关的面试问题。\n\n效率提升\n\n实体提取\n识别并提取文本中的关键实体\n\n效率提升\n\n概念理解\n将复杂概念转化为容易理解的内容\n\n学习助手\n\n新闻编写\n根据用户提供的信息，撰写一篇专业、吸引人的新闻稿。\n\n效率提升\n\n动漫风格\n广泛用于漫画书制作、动画系列、游戏设计、书籍插图\n\n图像生成\n\n自然风景\n适用于旅游推广、环境保护活动、教育出版物、自然摄影\n\n图像生成\n\n科幻世界\n适合科幻电影的设计、游戏开发、科技展览\n\n图像生成\n\n人物肖像\n适用于角色设计、社交媒 体形象和广告人像\n\n图像生成\n\n概念艺术\n适用于游戏制作、创意作品、广告创意\n\n图像生成\n\n网页总结\n访问指定网页，并提供详细总结。\n\nAI搜索\n\nPPT助手\n撰写专业、准确且吸引人的PPT内容\n\n智能创作\n\n猜谜游戏\n创造一系列具有挑战性的谜题，挑战智慧和逻辑\n\n创意助手\n\n英语学习\n英语语法教学和纠正，提供正确的表达方式\n\n学习助手\n\n高考志愿\n提供专业的高考志愿填报建议和指导\n\n学习助手\n\n股价查询\n查询指定股票的最新股价\n\nAI搜索\n\n好评生成\n生成高质量的外卖好评\n\n生活助手\n\n实时天气\n提供指定地区的天气情况，包括温度、湿度、风速等信息。\n\nAI搜索\n\n英文翻译\n准确、专业地将英文书籍翻译成中文\n\n学习助手\n\n合同审查\n审查并分析合同内容，提供专业的法律建议\n\n生活助手\n\n食谱生成\n根据用户提供的食材和饮食偏好生成个性化食谱\n\n生活助手\n\n健身计划\n打造专属的个性化健身方案\n\n生活助手\n\n理财顾问\n提供专业的理财建议和规划服务\n\n生活助手\n\n游戏NPC\n增强游戏的丰富性和互动性\n\n人设对话\n\n苏格拉底\n帮助用户批判性地审视他们的信念和观点\n\n人设对话\n\n图谱构建\n提取实体、关系及其属性，构建知识图谱\n\n实体抽取\n\n销售陪练\n专业的指导和反馈，提升销售人员的销售技巧和自信心\n\n智能问答\n\n家庭医生\n提供专业的体检报告解读服务\n\n生活助手\n\n简历筛选\n高效准确地识别出符合职位要求的候选人。\n\n效率提升\n\n合同起草\n撰写一份清晰、准确、具有法律效力的合同。\n\n智能创作\n\n数据分析\n深入挖掘数据、发现关键价值\n\n效率提升\n\n时尚顾问\n推荐个性化的穿搭建议\n\n生活助手\n\n简历制作\n根据用户提供的信息，生成专业的简历\n\n智能创作\n\n画流程图\n快速构建一张流程图\n\n效率提升\n\n热点咨询\n咨询特定热点新闻或事件\n\nAI搜索\n\n文本摘要\n快速理解文本内容，节省时间，提高效率\n\n效率提升\n\n广告文案\n创作引人注目且富有创意的广告文案\n\n智能创作\n\n问卷设计\n设计简洁有效的人格测试问卷\n\n智能创作\n\n财税顾问\n提供专业的财税咨询和建议\n\n效率提升\n\n技术文档\n编写规范的API文档"
+    },
+    {
+        "question": "智谱ai平台的开放平台介绍-关于智谱ai的BigModel平台介绍-关于智谱ai的BigModel平台介绍",
+        "answer": "智谱AI大模型开放平台\n几行代码接入大模型，极速构建变革性AI体验。\n注册立享 2500万 Tokens\n免费试用"
+    },
+    {
+        "question": "智谱ai平台的开放平台介绍-关于智谱ai的BigModel平台介绍-关于智谱ai的GLM-4-Flash介绍",
+        "answer": "智谱AI首个免费API，零成本使用大模型"
+    },
+    {
+        "question": "智谱ai平台的开放平台介绍-关于智谱ai的BigModel平台介绍-关于智谱ai的GLM-4-Plus介绍",
+        "answer": "性能全面提升，长文本和复杂任务能力显著增强\n模型微调 \n领取500万免费微调礼包，限量2000份\n免费体验 \n2500万免费tokens，10+工具组件\n最新研究"
+    },
+    {
+        "question": "智谱ai平台的开放平台介绍-关于智谱ai的BigModel平台介绍-关于智谱ai的最新旗舰大模型介绍",
+        "answer": "GLM语言大模型,全栈自研GLM架构，数十万亿tokens中英双语训练，综合能力接近 GPT-4-Turbo，最高推理速度达到 80 tokens/s ，超出人类极限阅读速度（300字/分钟）的 25 倍。\n\nGLM-4-Plus\n最新旗舰\nGLM-4-Air\n高性价比\nGLM-4-Flash\n免费调用"
+    },
+    {
+        "question": "智谱ai平台的开放平台介绍-关于智谱ai的BigModel平台介绍-关于智谱ai的多模态大模型介绍",
+        "answer": "更懂中文的视觉理解、文生图等多模态模型能力。准确理解各任务场景语言描述及指令，更精确的完成多模态理解及生成任务。\n\nGLM-4V-Plus\n视觉能力\nCogView-3-Plus\n文生图\nCogVideoX\n文生视频\n面向开发人员\n\n极速构建变革性AI体验"
+    },
+    {
+        "question": "智谱ai平台的开放平台介绍-关于智谱ai的BigModel平台介绍-关于智谱ai的模型API介绍",
+        "answer": "Alltools API\n批处理API\n模型微调\n检索增强\n函数调用\n代码解释器\n模型API\n只需通过几行代码即可接入我们新一代 GLM-4 系列大模型，最高推理速度达到 80 tokens/s"
+    },
+    {
+        "question": "智谱ai平台的开放平台介绍-关于智谱ai的BigModel平台介绍-关于智谱ai的面向企业服务介绍",
+        "answer": "丰富的行业解决方案\n预约专家\n更多服务\n医疗健康行业\n\n助力医药医疗数智化，转型构建患者服务新生态\n覆盖诊端、治疗、药品销售、门店经营等六大场景，为医疗健康行业赋能\n\n\n汽车行业\n\n助力车企数字化转型，提升客户用车体验\n积累汽车行业大模型洞察和高质量训练语料，为客户构建大模型数据资产\n\n\n游戏娱乐行业\n\n助力游戏行业全面革新，提升玩家沉浸乐趣\n覆盖游戏制作管线、发行、运营等多维场景，让AI为游戏娱乐行业赋能\n\n\n文旅行业\n\n助力文旅行业创新发展，打造个性化旅行助手\n覆盖行程规划、游记创作，营销等多维场景，让AI驱动文旅行业的进步动力\n\n\n智能终端行业\n\n赋能打造杀手级AI应用，全面革新用户体验\n覆盖AI手机、AI PC、智能家电等多种终端设备，抓住智能终端行业新机遇\n\n\n智能制造行业\n\n大模型助力新型工业化，打造新质生产力\n以AI驱动万物智造创新，覆盖数字化生产、智慧工厂、SOP生成等多维场景\n\n\n消费行业\n\n加速AI应用落地大消费行业，引领新一轮业态革新\n覆盖客服、营销、导购、质检、舆情等多维场景，大模型助力消费产业升级\n\n\n与全球创新者同行，领先一步\n\n更惊艳的多模态AIGC智能化场景\n“IM生成式大模型”深入挖掘海量座舱交互体验数据并构建最新模型智能体能力框架进行整体升级换代，与端侧大模型协同配合，将综合复杂场景进行云上分流，场景效果更丰富、更贴心。\n\n\n\nPC智能助手引领端侧AI技术革新\n得益于英特尔酷睿Ultra处理器的强大算力和智谱AI的针对性优化，PC智能助手即使在离线状态下也能高效工作，从根本上改变用户与电脑交互方式，拥有高性能、低延迟特性，AI体验轻松高效。\n\n\n\n人工智能办公应用“WPS AI”\n在与我们产品功能的深入融合中，智谱GLM系列大模型表现出了强大的综合能力，在多个场景具备更优的效果，很好地支撑了我们文字、PPT等产品线的智能化升级。\n\n\n\n探索金融大模型行业创新应用典范\n在风险管理、营销运营、客户服务、内部支撑等领域开展联合攻坚，共同促进大模型技术在金融行业的广泛应用和快速发展，打造“金融+科技”共赢生态圈。\n\n\n\n24小时在线的公积金智能客服\n用户通过公积金中心线上公众号、官网、政务公共服务互联网入口等与大模型客服交互，展现出更强的语义理解能力和更流畅的对话处理能力，公积金智能客服即可解答市民对公积金政策的问题。\n\n\n近百万开发者使用BigModel开发\n注册立享 2500万 Tokens"
     }
 ]

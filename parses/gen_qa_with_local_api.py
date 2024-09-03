@@ -3,53 +3,57 @@
 # author：samge
 # date：2024-09-02 14:00
 # describe：使用智谱的api对文本进行QA提取
+
+
 import json
 import os
-from zhipuai import ZhipuAI
 import configs
-from parses import qautils
+from parses import qa_models, qautils
 from utils import fileutils, timeutils
 
 
-zhipu_client = None
+api_client = None
+
+def get_api_client(api_key=None):
+    global api_client
+    if not api_client:
+        api_client = qa_models.ChatMessageAPI(
+            base_url=f'{configs.API_URL}/chat-messages',
+            api_key=api_key or configs.AUTHORIZATION
+        )
+    return api_client
 
 
-def get_zhipu_client():
-    global zhipu_client
-    if zhipu_client is None:
-        zhipu_client = ZhipuAI(api_key=configs.ZHI_PU_API_KEY)
-    return zhipu_client
+@timeutils.monitor
+def extract(query):
+    """
+    对输入的内容输出qa格式的增强文本
+
+    :param query: 需要进行增强的文本
+    :return: 
+    """
+    result = get_api_client().send_chat_message(
+        query=query,
+        user=configs.USER_NAME,
+    )
+    return result
 
 
 def gen_qa_list(text, prompt):
+    query = f"{text}\n\n{prompt}"
     try:
-        response = get_zhipu_client().chat.completions.create(
-            model=configs.ZHI_PU_MODEL,
-            messages=[
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": text},
-            ],
-            stream=False,
-            max_tokens=2095,
-            temperature=0.95,
-            top_p=0.70,
-        )
-        content = response.choices[0].message.content
-        content = content.replace("\n", " ").replace("```json", "").replace("```", "")
-        return json.loads(content)  
+        return extract(query) 
     except Exception as e:
         timeutils.print_log(f"gen_qa_lists error: {e}\ntext[:100]...", )
         return None
 
 
 if __name__ == '__main__':
-    save_path = fileutils.get_cache_dir() + "/qa_api_result.json"
+    save_path = fileutils.get_cache_dir() + "/qa_api_result_local.json"
     qa_api_results = json.loads(fileutils.read(save_path) or "[]")
     
     file_suffix = "txt,md"
-    
-    filepath_list = fileutils.get_files(fileutils.get_cache_dir("zp_docs/markdown"), file_suffix) + fileutils.get_files(fileutils.get_cache_dir("zp/markdown"), file_suffix) + fileutils.get_files(fileutils.data_dir, file_suffix)
-    
+    filepath_list = fileutils.get_files(fileutils.data_dir, file_suffix) + fileutils.get_files(fileutils.get_cache_dir("zp_docs/markdown"), file_suffix) + fileutils.get_files(fileutils.get_cache_dir("zp/markdown"), file_suffix)
     scope_total = len(qautils.SCOPE_LIST)
     filepath_total = len(filepath_list)
     

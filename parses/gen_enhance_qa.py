@@ -13,7 +13,7 @@ if __name__ == "__main__":
     # 待处理的qa列表数据
     text = fileutils.read(f"{fileutils.get_cache_dir()}/qa.json")
     # text = fileutils.read(f"{fileutils.get_cache_dir()}/qa_custom.json")
-    qa_list = qas.load_json(text)
+    doc_list = [str(item) for item in qas.load_json(text)]
     
     # 生成数据的保存路径
     save_path = f"{fileutils.get_cache_dir()}/enhanced_qas.json"
@@ -23,6 +23,6 @@ if __name__ == "__main__":
     
     for z in range(max_times):
         timeutils.print_log(f"【{z+1}/{max_times}】正在处理：")
-        qas.generate_enhanced_text(save_path=save_path, qa_list=qa_list)
+        qas.generate_enhanced_text(save_path=save_path, doc_list=doc_list)
 
     timeutils.print_log("\nall done")

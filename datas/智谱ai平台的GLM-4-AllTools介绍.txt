@@ -19,9 +19,9 @@ GLM-4-AllTools 模型支持了多种工具，并且持续更新中。
 ##使用方式
 GLM-4-AllTools模型仅支持 SSE 流式输出，请求示例如下，具体请参考接口文档。
 from zhipuai import ZhipuAI
-client = ZhipuAI(api_key="") # 请填写您自己的APIKey
+client = ZhipuAI(api_key="")
 response = client.chat.completions.create(
-    model="glm-4-alltools",  # 填写需要调用的模型名称
+    model="glm-4-alltools",  
     messages=[
         {
             "role": "user",
