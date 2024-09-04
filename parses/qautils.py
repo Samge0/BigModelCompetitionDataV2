@@ -87,12 +87,11 @@ def is_int(s):
     except:
         return False
 
-
-def is_qa_item_format(item):
-    return isinstance(item, dict) and 'question' in item and 'answer' in item
-
 # 是否如何要求的数据格式
 def is_qa_item_format(item):
+    
+    if not isinstance(item, dict):
+        return False
     
     question = item.get('question') or ''
     answer = item.get('answer') or ''

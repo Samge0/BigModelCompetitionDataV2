@@ -5,6 +5,7 @@
 # describe：
 
 
+import random
 from parses import qas, qautils
 from utils import fileutils, timeutils
 
@@ -19,8 +20,8 @@ def gen_finetuning_data(json_data, need_default_prompt=True):
     for json_data_item in json_data_list:
         if not qautils.is_qa_item_format(json_data_item):
             continue
-        question = json_data.get('question')
-        answer = json_data.get('answer')
+        question = json_data_item.get('question')
+        answer = json_data_item.get('answer')
         messages.append({"role": "user", "content": question})
         messages.append({"role": "assistant", "content": answer})
         
@@ -46,7 +47,11 @@ if __name__ == "__main__":
             if not finetuning_data:
                 continue
             results.append(finetuning_data)
-            
+
+    # 打乱数据顺序
+    random.shuffle(results)
+           
+    # 保存 
     save_path = f'{fileutils.get_cache_dir()}/finetuning_data.jsonl'
     fileutils.save_jsonl(save_path, results)
     
