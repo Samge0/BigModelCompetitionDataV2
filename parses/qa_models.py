@@ -23,7 +23,7 @@ class ChatMessageAPI:
             'Content-Type': 'application/json'
         }
 
-    def send_chat_message(self, query, user, files=None, response_mode='blocking', conversation_id=""):
+    def send_chat_message(self, query, user, files=None, response_mode='blocking', conversation_id="", json_format=False):
         """
         Send a chat message to the API.
 
@@ -32,6 +32,7 @@ class ChatMessageAPI:
         :param files: A list of files to be included in the request (default: None).
         :param response_mode: The mode of the response (default: 'blocking'). blocking or streaming
         :param conversation_id: The conversation ID (default: empty string).
+        :param json_format: Whether to return the response in JSON format (default: False).
         :return: The response from the API.
         """
         data = {
@@ -48,9 +49,12 @@ class ChatMessageAPI:
             # Handle the response
             if response.status_code == 200:
                 answer = response.json().get('answer')
-                if "```" in answer:
-                    answer = answer.replace("\n", " ").replace("```json", "").replace("```", "")
-                return json.loads(answer)
+                if json_format:
+                    if "```" in answer:
+                        answer = answer.replace("\n", " ").replace("```json", "").replace("```", "")
+                    return json.loads(answer)
+                else:
+                    return answer
             else:
                 print(f"Request failed with status code: {response.status_code}")
                 return None
@@ -79,7 +83,8 @@ if __name__ == "__main__":
 "question": "速率限制指南-用量级别等级",
 "answer": "当前我们基于用户的月度 API 调用消耗金额情况将速率控制分为6种等级。\n消耗金额选取逻辑：我们会选取用户当前月份1号～t-1日的调用 API 推理消耗总金额和用户上个月的 API 调用消耗总金额做比较，取更高金额作为用户当前的 API 消耗金额。\n特别的，若您从未曾付费充值/购买过资源包，则会归为免费级别。\n用量级别|资质\n免费|api调用消耗0元-50元/每月（不含）\n用量级别1|api调用消耗50元-500元/每月（不含）\n用量级别2|api调用消耗500元-5000元/每月（不含）\n用量级别3|api调用消耗5000元-10000元/每月（不含）\n用量级别4|api调用消耗10000元-30000元/每月（不含）\n用量级别5|api调用消耗30000元以上/每月\n选择级别，查看各模型在对应级别下的限制"
 }""",
-        user=configs.USER_NAME
+        user=configs.USER_NAME,
+        json_format=True
     )
     print(result)
     

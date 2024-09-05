@@ -36,6 +36,7 @@ def extract(query):
     result = get_api_client().send_chat_message(
         query=query,
         user=configs.USER_NAME,
+        json_format=True
     )
     return result
 

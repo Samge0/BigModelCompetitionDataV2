@@ -38,6 +38,9 @@ if __name__ == '__main__':
     data_dir = fileutils.data_dir
     save_path = fileutils.get_cache_dir() + "/qa.json" 
     
+    # data_dir = fileutils.get_cache_dir("other_docs/texts")
+    # save_path = fileutils.get_cache_dir() + "/other_docs.json" 
+    
     # 使用 glob 模块获取所有 .md 文件
     doc_files = fileutils.get_files(data_dir, 'txt,md') or []
 
