@@ -61,7 +61,7 @@ if __name__ == '__main__':
     good_qa_list = fileutils.read_json(good_qa_path) or []
     # 丢弃qa保存路径
     bad_qa_path = os.path.join(output_dir, "bad_qa.json")
-    bad_qa_list = fileutils.read_json(good_qa_path) or []
+    bad_qa_list = fileutils.read_json(bad_qa_path) or []
     
     qa_lst = []
     for filepath in input_path.split("|"):
