@@ -56,7 +56,18 @@ def save_jsonl(filepath, json_list, mode='w'):
         for entry in json_list:
             json_line = json.dumps(entry, ensure_ascii=False)
             file.write(json_line + '\n')
-        
+
+# 读取 jsonl 文件的函数
+def read_jsonl(file_path):
+    data = []
+    with open(file_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            try:
+                data.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                print(f"Error decoding JSON: {e}")
+    return data        
+
 def read_json(filepath):
     if not os.path.exists(filepath):
         return None

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author：samge
 # date：2024-09-05 16:42
-# describe：生成智谱批量任务的jsonl文件，利用智谱平台的batch api批量执行，详情见：https://bigmodel.cn/dev/howuse/batchapi
+# describe：生成智谱批量任务的jsonl文件（QA审判），利用智谱平台的batch api批量执行，详情见：https://bigmodel.cn/dev/howuse/batchapi
 
 import argparse
 import os
@@ -26,7 +26,7 @@ model = "glm-4-flash"    # 免费 https://bigmodel.cn/pricing
 
 
 def gen_batch_request_item(qa, index, custom_prompt):
-    return {"custom_id": f"request-{index}", "method": "POST", "url": "/v4/chat/completions", "body": {"model": {model}, "messages": [{"role": "system", "content": custom_prompt or default_prompt},{"role": "user", "content": str(qa)}]}}
+    return {"custom_id": f"request-{index}", "method": "POST", "url": "/v4/chat/completions", "body": {"model": model, "messages": [{"role": "system", "content": custom_prompt or default_prompt},{"role": "user", "content": str(qa)}]}}
 
 
 if __name__ == '__main__':
@@ -48,7 +48,7 @@ if __name__ == '__main__':
         raise ValueError("请输入有效的待处理的qa-json列表文件")
     
     # 输出目录
-    output_dir = args.output_dir or fileutils.get_cache_dir("allqas")
+    output_dir = args.output_dir or fileutils.get_cache_dir("zh_batch_input_files")
     # batch qa的保存路径
     batch_qa_path = os.path.join(output_dir, "all_qa_list_batch.jsonl")
     # batch qa的保存路径 - 切割100条数据作为测试
