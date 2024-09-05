@@ -77,6 +77,11 @@ cp configs.demo.py configs.py
     python parses/qa_judge.py 
     ```
 
+- 调用dify搭建的【QA增强】的api接口，同一个QA用不同的说法描述：[parses/qa_robustness.py](parses/qa_robustness.py)
+    ```shell
+    python parses/qa_robustness.py 
+    ```
+
 - 将指定目录下的所有qa数据合并为符合微调要求的格式：[parses/merge_finetuning_data.py](parses/merge_finetuning_data.py) | [参考>>](https://bigmodel.cn/dev/howuse/finetuning/dataset)
     ```shell
     python parses/merge_finetuning_data.py

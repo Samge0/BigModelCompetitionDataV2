@@ -7,6 +7,7 @@
 API_URL = 'http://localhost:80/v1'                      # dify的api地址，请替换为实际的服务器地址
 AUTHORIZATION = 'xxx'                                   # dify的api鉴权token
 AUTHORIZATION_QA_JUDGE = 'xxx'                          # dify的api鉴权token-QA审判长
+AUTHORIZATION_QA_ROBUSTNESS = 'xxx'                     # dify的api鉴权token-QA增强
 USER_NAME = 'xxx'                                       # dify的api请求用户名
 
 # 待处理的文档目录
