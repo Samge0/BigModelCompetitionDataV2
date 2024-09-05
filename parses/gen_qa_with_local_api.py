@@ -51,12 +51,15 @@ def gen_qa_list(text, prompt):
 
 if __name__ == '__main__':
     
-     # 创建解析器
-    parser = argparse.ArgumentParser(description="示例脚本接收 -- 参数")
+    # 创建解析器
+    parser = argparse.ArgumentParser(description="脚本接收 -- 参数")
     
     # 添加参数
     parser.add_argument('--output_path', type=str, help='输出文件路径')
     parser.add_argument('--input_dir', type=str, help='待处理的文件夹目录，多个用|分隔')
+    parser.add_argument('--input_path', type=str, help='待处理的文件，多个用|分隔')
+    parser.add_argument('--custom_prompt', type=str, help='自定义的prompt')
+    parser.add_argument('--combine', type=str, help='是否组装QA问答历史列表模式，true/false')
 
     # 解析命令行参数
     args = parser.parse_args()
@@ -73,13 +76,17 @@ if __name__ == '__main__':
     input_dir_lst = []
     if args.input_dir:
         input_dir_lst = args.input_dir.split("|")
-    else:
+    elif not args.input_path:
         input_dir_lst = [
             fileutils.data_dir,
             fileutils.get_cache_dir("zp_docs/markdown"),
             fileutils.get_cache_dir("zp/markdown"),
         ]
         
+    if args.input_path:
+        for input_path in args.input_path.split("|"):
+            input_dir_lst.insert(0, input_path)
+            
     filepath_list = []
     for _dir in input_dir_lst:
         filepath_list += fileutils.get_files(_dir, file_suffix)
@@ -93,9 +100,20 @@ if __name__ == '__main__':
     i_index, y_index, z_index = map(int, (fileutils.read(index_cache_file) or '0,0,0').split(','))
     timeutils.print_log(f"从上次处理的位置开始（起始下标为0）：i_index: {i_index}, y_index: {y_index}, z_index: {z_index}")
     
+    # 如果有自定义提示，则不需要根据默认的scope进行拼接
+    if args.custom_prompt:
+        i_index = 0
+        scope_total = 1
+        
+    # 是否组装
+    is_combine = args.combine == "true" if args.combine else qautils.IS_COMBINE
+    
+    # 使用集合来跟踪已经添加的问题
+    existing_qa_infos = set()
+    
     for i in range(i_index, scope_total):
         scope = qautils.SCOPE_LIST[i]
-        prompt = scope + qautils.COMMON_TIP
+        prompt = args.custom_prompt or f"{scope}{qautils.COMMON_TIP}"
         
         for y in range(y_index, filepath_total):
             filepath = filepath_list[y]
@@ -113,12 +131,22 @@ if __name__ == '__main__':
                 if not qa_list or not isinstance(qa_list, list):
                     continue
                 
-                if qautils.IS_COMBINE:
+                if is_combine:
                      # 拼装qa列表，为了后续组装历史问答类型的qa
                     qa_list.insert(0, {"question": f"请阅读我提供给你的这篇文档（{os.path.basename(filepath)}），然后回答相关问题", "answer": "好的，我将会为您解答相关问题。"})
                     qa_api_results.append(qa_list) 
                 else:
-                    qa_api_results += qa_list # 拼装独立的qa
+                    # 拼装独立的qa
+                    for qa in qa_list:
+                        question = qa.get("question")
+                        answer = qa.get("answer")
+                        if question in existing_qa_infos or answer in existing_qa_infos:
+                            timeutils.print_log("已存在该Q/A，跳过：" + question)
+                            continue
+                        # 如果问题不在集合中，才添加到结果列表，并且更新集合
+                        qa_api_results.append(qa)
+                        existing_qa_infos.add(question)
+                        existing_qa_infos.add(answer)
                 
                 fileutils.save_json(save_path, qa_api_results)
             z_index = 0
