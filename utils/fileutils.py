@@ -16,6 +16,9 @@ root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace(o
 # data目录
 data_dir = f"{root_dir}/datas"
 
+# prompts目录
+prompts_dir = f"{root_dir}/prompts"
+
 
 def get_cache_dir(sub_dir=""):
     cache_dir = f"{root_dir}/.cache"
@@ -54,6 +57,15 @@ def save_jsonl(filepath, json_list, mode='w'):
             json_line = json.dumps(entry, ensure_ascii=False)
             file.write(json_line + '\n')
         
+def read_json(filepath):
+    if not os.path.exists(filepath):
+        return None
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"read_json {filepath} 时出错，错误信息：{e}")
+        return None
 
 def get_files(doc_dir, doc_suffix) -> list:
     """
