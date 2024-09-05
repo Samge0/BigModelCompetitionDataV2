@@ -88,16 +88,16 @@ def is_int(s):
         return False
 
 # 是否如何要求的数据格式
-def is_qa_item_format(item):
+def is_qa_item_format(item, key_question="question", key_answer="answer"):
     
     if not isinstance(item, dict):
         return False
     
-    question = item.get('question') or ''
-    answer = item.get('answer') or ''
+    question = item.get(key_question) or ''
+    answer = item.get(key_answer) or ''
     
     is_ok = isinstance(item, dict) \
-        and 'question' in item and 'answer' in item \
+        and key_question in item and key_answer in item \
         and len(question) >= 6 and (len(answer) >= 10 or is_int(answer)) \
         and answer != '{search_result}'
         
