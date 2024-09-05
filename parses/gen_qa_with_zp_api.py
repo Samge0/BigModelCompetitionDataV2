@@ -36,7 +36,7 @@ def gen_qa_list(text, prompt):
             top_p=0.70,
         )
         content = response.choices[0].message.content
-        content = content.replace("\n", " ").replace("```json", "").replace("```", "")
+        content = content.replace("```json", "").replace("```", "")
         return json.loads(content)  
     except Exception as e:
         timeutils.print_log(f"gen_qa_lists error: {e}\ntext[:100]...", )
