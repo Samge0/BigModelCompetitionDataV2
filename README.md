@@ -22,32 +22,32 @@ cp configs.demo.py configs.py
 
 ### 运行
 
-- 抓取智谱的新闻通告页面数据
+- 抓取智谱的新闻通告页面数据：[crawlers/crawl_news.py](crawlers/crawl_news.py)
     ```shell
     python crawlers/crawl_news.py
     ```
 
-- 抓取智谱的使用文档&api文档页面数据
+- 抓取智谱的使用文档&api文档页面数据：[crawlers/crawl_docs.py](crawlers/crawl_docs.py)
     ```shell
     python crawlers/crawl_docs.py
     ```
 
-- 将比赛提供的几个默认文档数据提取为QA格式数据
+- 将比赛提供的几个默认文档数据提取为QA格式数据：[parses/extract_qa.py](parses/extract_qa.py)
     ```shell
     python parses/extract_qa.py
     ```
 
-- 遍历已有的QA数据，调用dify中的接口获取增强的QA数据
+- 遍历已有的QA数据，调用dify中的接口获取增强的QA数据：[parses/gen_enhance_qa.py](parses/gen_enhance_qa.py)
     ```shell
     python parses/gen_enhance_qa.py
     ```
 
-- 遍历抓取的文档并根据指定长度切片，调用dify中的接口获取增强的QA数据
+- 遍历抓取的文档并根据指定长度切片，调用dify中的接口获取增强的QA数据：[parses/gen_enhance_qa_by_split_doc.py](parses/gen_enhance_qa_by_split_doc.py)
     ```shell
     python parses/gen_enhance_qa_by_split_doc.py
     ```
 
-- 使用智谱的api提取文本块中的qa列表信息
+- 使用智谱的api提取文本块中的qa列表信息：[parses/gen_qa_with_zp_api.py](parses/gen_qa_with_zp_api.py)
     ```shell
     python parses/gen_qa_with_zp_api.py
     ```
@@ -57,7 +57,7 @@ cp configs.demo.py configs.py
     python parses/gen_qa_with_zp_api.py --input_dir xxx/xxx|yyy/yyy --output_path xxx/xxx.json
     ```
 
-- 使用本地的api（这里默认用的dify+ollama+qwen2的组合）提取文本块中的qa列表信息
+- 使用本地的api（这里默认用的dify+ollama+qwen2的组合）提取文本块中的qa列表信息：[parses/gen_qa_with_local_api.py](parses/gen_qa_with_local_api.py)
     ```shell
     python parses/gen_qa_with_local_api.py
     ```
@@ -67,7 +67,17 @@ cp configs.demo.py configs.py
     python parses/gen_qa_with_local_api.py --input_dir xxx/xxx|yyy/yyy --output_path xxx/xxx.json
     ```
 
-- 将指定目录下的所有qa数据合并为符合微调要求的格式，[参考>>](https://bigmodel.cn/dev/howuse/finetuning/dataset)
+- 清理指定目录下的qa json数据，移除重复的值：[parses/remove_duplicates.py](parses/remove_duplicates.py)
+    ```shell
+    python parses/remove_duplicates.py 
+    ```
+
+- 调用dify搭建的【QA审判长】的api接口，初步非人工干预地移除一些不符合要求的qa数据：[parses/qa_judge.py](parses/qa_judge.py)
+    ```shell
+    python parses/qa_judge.py 
+    ```
+
+- 将指定目录下的所有qa数据合并为符合微调要求的格式：[parses/merge_finetuning_data.py](parses/merge_finetuning_data.py) | [参考>>](https://bigmodel.cn/dev/howuse/finetuning/dataset)
     ```shell
     python parses/merge_finetuning_data.py
     ```
