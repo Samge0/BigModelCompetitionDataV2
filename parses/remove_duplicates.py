@@ -21,8 +21,8 @@ if __name__ == '__main__':
     parser.add_argument('--key_answer', type=str, help='输入的json中对应的answer键名')
     args = parser.parse_args()
     
-    input_dir = args.input_dir or fileutils.get_cache_dir("qas")
-    # input_dir = args.input_dir or fileutils.get_cache_dir()
+    # input_dir = args.input_dir or fileutils.get_cache_dir("qas")
+    input_dir = args.input_dir or fileutils.get_cache_dir()
     file_list = fileutils.get_files(input_dir, "json")
     
     key_question = args.key_question or 'question'

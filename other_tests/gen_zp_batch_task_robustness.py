@@ -29,8 +29,8 @@ default_prompt = """你是一位专业的AI助手，目标是帮助用户生成�
 直接返回一个JSON格式的QA列表。示例：[{\"question\": \"...\", \"answer\": \"...\"}]
 """
 
-model = "glm-4-0520"     # 默认 0.1/1000tokens => batch 0.05/1000tokens
-# model = "glm-4-flash"    # 免费 https://bigmodel.cn/pricing
+# model = "glm-4-0520"     # 默认 0.1/1000tokens => batch 0.05/1000tokens
+model = "glm-4-flash"    # 免费 https://bigmodel.cn/pricing
 
 
 def gen_batch_request_item(qa, index, custom_prompt):
