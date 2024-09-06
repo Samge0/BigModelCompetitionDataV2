@@ -57,7 +57,7 @@ if __name__ == '__main__':
                 continue
             
             if isinstance(qa, list):
-                new_qa_item = [{key_question: tmp_item.get(key_question), key_answer: tmp_item.get(key_answer)} for tmp_item in qa if tmp_item.get(key_question) and tmp_item.get(key_answer)]
+                new_qa_item = [{key_question: tmp_item.get(key_question), key_answer: tmp_item.get(key_answer)} for tmp_item in qa if isinstance(tmp_item, dict) and tmp_item.get(key_question) and tmp_item.get(key_answer)]
             else:
                 if not qa.get(key_question) or not qa.get(key_answer):
                     total_removed += 1
