@@ -91,7 +91,6 @@ cp configs.demo.py configs.py
 ![image](https://github.com/user-attachments/assets/f292cf88-b255-4bba-992f-aa3fdcb73bb8)
 ![image](https://github.com/user-attachments/assets/1201ad3b-a9af-419c-aaaa-b4da1c7ae032)
 ![image](https://github.com/user-attachments/assets/965492dc-33ba-44f3-8a48-014345995b1f)
-![image](https://github.com/user-attachments/assets/f9166fae-0cd2-45bf-9588-f5b57784078a)
 ![image](https://github.com/user-attachments/assets/9ee323a9-8559-4c1e-9434-550434600028)
 
 
